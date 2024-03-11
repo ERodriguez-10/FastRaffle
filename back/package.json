@@ -1,0 +1,14 @@
+{
+  "name": "back-fastraffle",
+  "version": "1.0.0",
+  "description": "Backend service for Fast Raffle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Express"
+  ],
+  "author": "ERodriguez",
+  "license": "ISC"
+}
