@@ -3,10 +3,11 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  text-decoration: none;
-  list-style: none;
+  background-color: #1d1238;
 }
 :root{
+  height: 100vh;
+  width: 100vw;
   --bg-color: #1d1238;
   --text-color: #fff;
   --main-color: #130c25;
