@@ -18,7 +18,7 @@
   border-color: #a5a3a3 !important;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   text-align: start;
 }
 .welcomeDivSubtitle{
