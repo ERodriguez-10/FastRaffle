@@ -9,9 +9,13 @@ authRouter.get("/discord", passport.authenticate(DiscordStrategy));
 
 authRouter.get(
   "/discord/callback",
-  passport.authenticate(DiscordStrategy, { failureRedirect: "/" }),
+  passport.authenticate(DiscordStrategy, {
+    session: false,
+    failureRedirect: "/",
+    failureFlash: true,
+  }),
   (req, res) => {
-    res.redirect("/secretstuff");
+    res.redirect("http://localhost:5173/success");
   }
 );
 
