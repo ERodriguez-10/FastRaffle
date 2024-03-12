@@ -1,0 +1,29 @@
+.container{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.title{
+  color: var(--text-color);
+}
+.logo{
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+.welcomeDiv{
+  border-color: #a5a3a3 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: start;
+}
+.welcomeDivSubtitle{
+  color: #fff;
+}
+.welcomeDivText{
+  color: #a5a3a3;
+}
