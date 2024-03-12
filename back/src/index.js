@@ -6,6 +6,10 @@ import "./config/env.config.js";
 
 import authRouter from "./routes/auth.routes.js";
 import MongoSingleton from "./config/db/mongodb.config.js";
+import passport from "passport";
+import cookieParser from "cookie-parser";
+
+import initializePassport from "./config/jwt.config.js";
 
 const expressApp = express();
 
@@ -26,6 +30,11 @@ expressApp.use(cors(corsOptions));
 
 expressApp.use(express.json());
 expressApp.use(express.urlencoded({ extended: true }));
+
+expressApp.use(cookieParser());
+
+initializePassport();
+expressApp.use(passport.initialize());
 
 expressApp.get("/", (req, res) => {
   res.send("Hello World!");

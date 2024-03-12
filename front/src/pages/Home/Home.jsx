@@ -24,6 +24,7 @@ const Home = () => {
       </Link>
       <div className="text-left border-gray-400 w-1/3 border px-3 py-3 rounded-md">
         <h4 className="text-xl text-white pb-6">
+          <i className="ri-coupon-fill mr-2"></i>
           Participa, comparte y disfruta!
         </h4>
         <p className="welcomeDivText">Gana muchos premios!</p>

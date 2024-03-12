@@ -6,19 +6,20 @@ const Login = () => {
     window.location.href = "http://localhost:8080/api/auth/discord";
   };
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <img
         src="https://media.licdn.com/dms/image/C4E0BAQHZYYIUKBtZNw/company-logo_200_200/0/1677855312170/devtalles_logo?e=1718236800&v=beta&t=Mr5D2UCUBCFCNKu3VsgHf2tjlFbFgUCfrxKJoN4f1NQ"
         className="logo my-3"
       />
-      <h1 className="title">Inicia sesión para continuar!</h1>
+      <h1 className="text-center text-white text-3xl">
+        Inicia sesión para continuar!
+      </h1>
       <Button
         onClickFunction={handleLogin}
-        text={
-          "<i style='background: rgb(255, 169, 136); font-size: 50px;' class='ri-discord-fill'><p style='background: rgb(255, 169, 136); display: inline-block; font-size: 20px'>Continuar con Discord</p></i>"
-        }
+        text={"Continuar con Discord"}
+        iconName={"ri-discord-fill"}
         bg={"#ffa988"}
-        className={"my-5"}
+        className={"my-8 px-10 py-2 rounded-md font-bold"}
       />
     </div>
   );
