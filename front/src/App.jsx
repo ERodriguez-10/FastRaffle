@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import Home from './pages/Home/Home.jsx'
+import Login from './pages/Login/Login.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Home/>
+      <Login/>
     </>
   )
 }
