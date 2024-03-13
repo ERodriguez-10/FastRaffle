@@ -5,6 +5,7 @@ import Modal from "../../components/Modal/Modal.jsx";
 
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [codeModalOpen, setCodeModalOpen] = useState(false);
 
   const [raffles, setRaffles] = useState([]);
 
@@ -25,6 +26,16 @@ const Dashboard = () => {
         <Modal
           setOpenModalFunction={() => setIsOpenModal(!isOpenModal)}
           isOpen={isOpenModal}
+          formName={"raffle"}
+        />
+      ) : (
+        <></>
+      )}
+      {codeModalOpen ? (
+        <Modal
+          setOpenModalFunction={() => setCodeModalOpen(!codeModalOpen)}
+          isOpen={codeModalOpen}
+          formName={"code"}
         />
       ) : (
         <></>
@@ -55,6 +66,7 @@ const Dashboard = () => {
                 text={"Ingresa Código"}
                 bg={"#ffa988"}
                 iconName={"ri-add-circle-line"}
+                onClickFunction={() => setCodeModalOpen(true)}
                 className={
                   "my-8 mx-2 px-6 py-2 rounded-md font-bold text-black"
                 }

@@ -5,7 +5,6 @@ const Form = ({ setOpenModalFunction }) => {
   const {
     handleSubmit,
     register,
-    watch,
     formState: { errors },
   } = useForm();
   const [isDisabled, setIsDisabled] = useState(false);
