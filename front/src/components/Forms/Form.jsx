@@ -7,9 +7,10 @@ const Form = ({ setOpenModalFunction }) => {
     register,
     formState: { errors },
   } = useForm();
+
   const [isDisabled, setIsDisabled] = useState(false);
+
   const onSubmit = async (data) => {
-    console.log("Me tocaste");
     try {
       const response = await fetch("http://localhost:8080/api/raffle", {
         method: "POST",
@@ -18,19 +19,20 @@ const Form = ({ setOpenModalFunction }) => {
         },
         body: JSON.stringify(data),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const responseData = await response.json();
       console.log(responseData);
-  
+
       setOpenModalFunction();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
   return (
     <div className="w-full bg-impresario">
       <form onSubmit={handleSubmit(onSubmit)}>

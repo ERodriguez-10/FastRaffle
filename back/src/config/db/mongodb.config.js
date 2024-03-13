@@ -3,6 +3,7 @@ import moongose from "mongoose";
 import { configEnv } from "../env.config.js";
 
 import userModel from "../../schemas/user.schema.js";
+import raffleModel from "../../schemas/raffle.schema.js";
 
 const DB_USER = configEnv.DB_USER;
 const DB_PASSWORD = configEnv.DB_PASSWORD;
@@ -29,6 +30,7 @@ export default class MongoSingleton {
     try {
       await moongose.connect(URL_MONGO).then(() => {
         userModel.syncIndexes();
+        raffleModel.syncIndexes();
         console.log("Connected to MongoDB");
       });
     } catch (error) {

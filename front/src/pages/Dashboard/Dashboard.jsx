@@ -14,11 +14,11 @@ const Dashboard = () => {
       const responseRaffle = await fetch("http://localhost:8080/api/raffle");
       const dataRaffle = await responseRaffle.json();
 
-      setRaffles(dataRaffle.data);
+      setRaffles(dataRaffle.raffleList);
     }
 
     fetchData();
-  }, []);
+  });
 
   return (
     <>

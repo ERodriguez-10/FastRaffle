@@ -6,8 +6,18 @@ export default class RaffleServices {
   createRaffle = async (raffle) => {
     try {
       const raffleCreated = await raffleModel.create(raffle);
-      console.log(raffleCreated);
       return raffleCreated;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  isUniqueCode = async (code) => {
+    try {
+      let isUnique;
+      const searchCode = await raffleModel.findOne({ code: code });
+      searchCode ? (isUnique = true) : (isUnique = false);
+      return isUnique;
     } catch (err) {
       console.log(err);
     }
@@ -16,18 +26,7 @@ export default class RaffleServices {
   getAllRaffles = async () => {
     try {
       const raffles = await raffleModel.find();
-      console.log(raffles);
       return raffles;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  getRaffleById = async (id) => {
-    try {
-      const raffle = await raffleModel.findById(id);
-      console.log(raffle);
-      return raffle;
     } catch (err) {
       console.log(err);
     }
@@ -36,8 +35,25 @@ export default class RaffleServices {
   getRaffleByCode = async (code) => {
     try {
       const raffle = await raffleModel.findOne({ code: code });
-      console.log(raffle);
       return raffle;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  addParticipantToRaffle = async (raffle_id, user_id) => {
+    try {
+      const addParticipant = await raffleModel.updateOne(
+        {
+          _id: raffle_id,
+        },
+        {
+          $push: {
+            participants: user_id,
+          },
+        }
+      );
+      return addParticipant;
     } catch (err) {
       console.log(err);
     }
