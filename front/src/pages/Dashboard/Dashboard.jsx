@@ -39,11 +39,11 @@ const Dashboard = () => {
               className="my-auto font-bold text-2xl"
               style={{ background: "transparent", display: "inline" }}
             >
-              Dashboard
+              Panel Principal
             </h1>
             <div className="">
               <Button
-                text={"Creator view"}
+                text={"Vista de Creador"}
                 bg={"transparent"}
                 iconName={"ri-admin-line"}
                 onClickFunction={() => setIsOpenModal(true)}
@@ -52,7 +52,7 @@ const Dashboard = () => {
                 }
               />
               <Button
-                text={"Enter hackathon code"}
+                text={"Ingresa Código"}
                 bg={"#ffa988"}
                 iconName={"ri-add-circle-line"}
                 className={
@@ -65,7 +65,7 @@ const Dashboard = () => {
             <input
               className="w-full p-2 border rounded-lg text-white"
               type="text"
-              placeholder="Search..."
+              placeholder="Buscar..."
             />
           </div>
           <div className="h-full w-full">
