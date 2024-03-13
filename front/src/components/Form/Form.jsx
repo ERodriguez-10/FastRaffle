@@ -7,10 +7,10 @@ const Form = () => {
       <form>
         <div className="space-y-12 p-6">
           <div className="border-gray-900/10 pb-6">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Raffle Information</h2>
+            <h2 className="text-base font-semibold leading-7 text-white">Raffle Information</h2>
             <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
               <div className="col-span-full">
-                <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="title" className="block text-sm font-medium leading-6 text-white">
                   Title
                 </label>
                 <div className="mt-2">
@@ -20,13 +20,13 @@ const Form = () => {
                     id="title"
                     autoComplete="title"
                     placeholder="Title..."
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
 
               <div className="col-span-full">
-                <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="description" className="block text-sm font-medium leading-6 text-white">
                   Description
                 </label>
                 <div className="mt-2">
@@ -34,7 +34,7 @@ const Form = () => {
                     id="description"
                     name="description"
                     rows={3}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={''}
                     placeholder="Description..."
                   />
@@ -51,11 +51,11 @@ const Form = () => {
                           name="comments"
                           type="checkbox"
                           onChange={() => setIsDisabled(!isDisabled)}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                          className="h-4 w-4 rounded border-gray-400 text-indigo-600 focus:ring-indigo-600"
                         />
                       </div>
                       <div className="text-sm leading-6">
-                        <label htmlFor="comments" className="font-medium text-gray-900">
+                        <label htmlFor="comments" className="font-medium text-white">
                           Set max participants
                         </label>
                       </div>
@@ -68,7 +68,8 @@ const Form = () => {
                         name="maxSize"
                         id="maxSize"
                         disabled={isDisabled}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="Max participants..."
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -76,7 +77,7 @@ const Form = () => {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="dateStart" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="dateStart" className="block text-sm font-medium leading-6 text-white">
                   Date Start
                 </label>
                 <div className="mt-2">
@@ -84,7 +85,7 @@ const Form = () => {
                     type="date"
                     name="dateStart"
                     id="dateStart"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -98,13 +99,13 @@ const Form = () => {
                     type="date"
                     name="dateEnd"
                     id="dateEnd"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
 
               <div className="mt-6 col-span-full flex items-center justify-end gap-x-6">
-                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                <button type="button" className="text-sm font-semibold leading-6 text-white">
                   Cancel
                 </button>
                 <button
