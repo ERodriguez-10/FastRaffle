@@ -1,10 +1,18 @@
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 
 const Form = () => {
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm()
   const [isDisabled, setIsDisabled] = useState(false)
+  const onSubmit = (data) => console.log(data)
   return (
     <div className="w-1/3">
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-12 p-6">
           <div className="border-gray-900/10 pb-6">
             <h2 className="text-base font-semibold leading-7 text-white">Raffle Information</h2>
@@ -15,13 +23,11 @@ const Form = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    autoComplete="title"
+                    {...register("title", { required: true })}
                     placeholder="Title..."
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.title && <span className="text-white">This field is required</span>}
                 </div>
               </div>
 
@@ -31,13 +37,12 @@ const Form = () => {
                 </label>
                 <div className="mt-2">
                   <textarea
-                    id="description"
-                    name="description"
+                    {...register("description", { required: true })}
                     rows={3}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={''}
                     placeholder="Description..."
                   />
+                  {errors.description && <span className="text-white">This field is required</span>}
                 </div>
               </div>
 
@@ -64,9 +69,8 @@ const Form = () => {
                   <div className="col-span-full">
                     <div className="mt-2">
                       <input
-                        type="text"
-                        name="maxSize"
-                        id="maxSize"
+                        type="number"
+                        {...register("maxSize")}
                         disabled={isDisabled}
                         placeholder="Max participants..."
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -83,10 +87,10 @@ const Form = () => {
                 <div className="mt-2">
                   <input
                     type="date"
-                    name="dateStart"
-                    id="dateStart"
+                    {...register("dateStart", { required: true })}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.dateStart && <span className="text-white">This field is required</span>}
                 </div>
               </div>
 
@@ -97,10 +101,10 @@ const Form = () => {
                 <div className="mt-2">
                   <input
                     type="date"
-                    name="dateEnd"
-                    id="dateEnd"
+                    {...register("dateEnd", { required: true })}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.dateEnd && <span className="text-white">This field is required</span>}
                 </div>
               </div>
 
