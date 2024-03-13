@@ -11,15 +11,26 @@ const Form = ({ setOpenModalFunction }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const onSubmit = async (data) => {
     console.log("Me tocaste");
-    const response = await fetch("http://localhost:8080/api/raffle", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    console.log(response);
-    setOpenModalFunction();
+    try {
+      const response = await fetch("http://localhost:8080/api/raffle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      console.log(responseData);
+  
+      setOpenModalFunction();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
   return (
     <div className="w-full bg-impresario">
