@@ -1,42 +1,69 @@
 import { Router } from "express";
+import RaffleServices from "../services/raffle.services.js";
+
+import { v4 as uuidv4 } from "uuid";
+
+const sRaffle = new RaffleServices();
 
 const raffleRouter = Router();
 
-raffleRouter.get("/", (req, res) => {
+raffleRouter.get("/", async (req, res) => {
   try {
-    res.json({
-      data: [
-        {
-          raffle_id: "1234567890",
-          title: "Test Raffle",
-          code: "1234567890",
-          description: "Test Raffle Description",
-        },
-        {
-          raffle_id: "1234567891",
-          title: "Test Raffle 2",
-          code: "1234567891",
-          description: "Test Raffle Description 2",
-        },
-        {
-          raffle_id: "1234567892",
-          title: "Test Raffle 3",
-          code: "1234567892",
-          description: "Test Raffle Description 3",
-        },
-        {
-          raffle_id: "1234567893",
-          title: "Test Raffle 4",
-          code: "1234567893",
-          description: "Test Raffle Description 4",
-        },
-      ],
-    });
+    const raffleList = await sRaffle.getAllRaffles();
+    res.status(200).json({ raffleList });
   } catch (err) {
     console.log(err);
   }
 });
 
-raffleRouter.post("/", (req, res) => {});
+raffleRouter.post("/", async (req, res) => {
+  const dRaffle = req.body;
+
+  let randomCode;
+  let isValidCode = false;
+
+  do {
+    randomCode = uuidv4().slice(0, 8).toUpperCase();
+
+    isValidCode = await sRaffle.isUniqueCode(randomCode);
+  } while (isValidCode);
+
+  const nRaffle = {
+    ...dRaffle,
+    code: randomCode,
+    participants: [],
+    isActive: true,
+  };
+
+  try {
+    const newRaffle = await sRaffle.createRaffle(nRaffle);
+    res.status(200).json({ newRaffle });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ error });
+  }
+});
+
+raffleRouter.post("/:code/user/:user_id", async (req, res) => {
+  try {
+    const { code, user_id } = req.params;
+
+    const existRaffle = await sRaffle.getRaffleByCode(code);
+
+    console.log(existRaffle);
+
+    const raffleId = existRaffle._id;
+
+    const addParticipant = await sRaffle.addParticipantToRaffle(
+      raffleId,
+      user_id
+    );
+
+    console.log(addParticipant);
+    res.status(200).json({ message: "Is ok" });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 export default raffleRouter;

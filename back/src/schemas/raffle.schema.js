@@ -4,14 +4,14 @@ const { Schema, model } = mongoose;
 const raffleCollection = "raffles";
 
 const raffleSchema = new Schema({
-  raffle_id: { type: String, required: true, unique: true },
   title: { type: String, required: true },
-  code: { type: String, required: true },
+  code: { type: String, required: true, unique: true },
   description: { type: String, required: true },
-  maxSize: { type: Number, required: true },
+  hasMaxSize: { type: Boolean, required: true },
+  maxSize: { type: Number },
   participants: { type: Array, required: true },
-  status: { type: String, required: true },
-  winners: { type: Array, required: true },
+  isActive: { type: Boolean, required: true },
+  winners: { type: Array },
   dateStart: { type: Date, default: Date.now },
   dateEnd: { type: Date, default: Date.now },
 });
