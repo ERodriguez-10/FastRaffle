@@ -10,6 +10,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 
 import initializePassport from "./config/jwt.config.js";
+import raffleRouter from "./routes/raffle.routes.js";
 
 const expressApp = express();
 
@@ -42,7 +43,7 @@ expressApp.get("/", (req, res) => {
 
 expressApp.use("/api/auth", authRouter);
 //expressApp.use("/api/user", userRouter);
-//expressApp.use("/api/raffle", raffleRouter);
+expressApp.use("/api/raffle", raffleRouter);
 
 const initializeServer = async () => {
   try {
