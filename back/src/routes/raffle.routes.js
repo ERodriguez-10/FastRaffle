@@ -17,6 +17,18 @@ raffleRouter.get("/", async (req, res) => {
   }
 });
 
+raffleRouter.get("/:code", async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const existRaffle = await sRaffle.getRaffleByCode(code);
+
+    res.status(200).json({ data: existRaffle });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 raffleRouter.post("/", async (req, res) => {
   const dRaffle = req.body;
 

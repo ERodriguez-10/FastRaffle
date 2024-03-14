@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button.jsx";
 import Card from "../../components/Card/Card.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
-
+import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -92,15 +92,16 @@ const Dashboard = () => {
                 );
 
                 return (
-                  <Card
-                    key={r._id}
-                    title={r.title}
-                    description={r.description}
-                    code={r.code}
-                    isParticipating={isParticipating}
-                    userId={user.user.user_id}
-                    updateRaffles={updateRaffles}
-                  />
+                  <Link to={`/details/${r.code}`} key={r._id}>
+                    <Card
+                      title={r.title}
+                      description={r.description}
+                      code={r.code}
+                      isParticipating={isParticipating}
+                      userId={user.user.user_id}
+                      updateRaffles={updateRaffles}
+                    />
+                  </Link>
                 );
               })}
             </div>
