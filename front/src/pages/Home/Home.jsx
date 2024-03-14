@@ -1,14 +1,13 @@
-import "./Home.css";
 import Button from "../../components/Button/Button.jsx";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <div className="bg-impresario">
-      <div className="container mx-auto">
+      <div className="container mx-auto text-center flex flex-col items-center justify-center h-screen">
         <img
           src="https://media.licdn.com/dms/image/C4E0BAQHZYYIUKBtZNw/company-logo_200_200/0/1677855312170/devtalles_logo?e=1718236800&v=beta&t=Mr5D2UCUBCFCNKu3VsgHf2tjlFbFgUCfrxKJoN4f1NQ"
-          className="logo my-3"
+          className="rounded-full h-20 my-3"
         />
         <h1 className="text-center text-white text-4xl">
           Bienvenidos a FastRaffle
@@ -28,9 +27,9 @@ const Home = () => {
             <i className="ri-coupon-fill mr-2"></i>
             Participa, comparte y disfruta!
           </h4>
-          <p className="welcomeDivText">Gana muchos premios!</p>
-          <p className="welcomeDivText py-2">Sorteos de la comunidad</p>
-          <p className="welcomeDivText" style={{ marginBottom: 0 }}>
+          <p className="text-gray-400">Gana muchos premios!</p>
+          <p className="py-2 text-gray-400">Sorteos de la comunidad</p>
+          <p className="text-gray-400" style={{ marginBottom: 0 }}>
             Premios varios...
           </p>
         </div>
