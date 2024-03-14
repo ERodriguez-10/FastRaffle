@@ -92,25 +92,19 @@ const Details = ({ r }) => {
         <div className="w-full p-5 text-white">
           <h2 className="text-center my-4 font-bold text-2x1">Participantes</h2>
           <div className="flex flex-row gap-4 my-auto overflow-y-auto flex-wrap max-h-[480px]">
-            {(() => {
-              const images = [];
-              for (let i = 0; i < 100; i++) {
-                images.push(
-                  <img
-                    key={i}
-                    src={
-                      "https://img.freepik.com/free-icon/user_318-286823.jpg"
-                    }
-                    alt={`Imagen ${i}`}
-                    className="m-2 h-16 cursor-pointer"
-                    onClick={() => {
-                      console.log(`Imagen ${i}`);
-                    }}
-                  />
+            {raffleData &&
+              raffleData.participants.map((p) => {
+                return (
+                  <>
+                    <img
+                      src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
+                      width={64}
+                      height={64}
+                    />
+                    <p className="text-white">{p.globalname}</p>
+                  </>
                 );
-              }
-              return images;
-            })()}
+              })}
           </div>
         </div>
         <div className="flex justify-center">
