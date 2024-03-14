@@ -44,7 +44,11 @@ raffleRouter.post("/", async (req, res) => {
   }
 });
 
-raffleRouter.post("/:code/user/:user_id", async (req, res) => {
+raffleRouter.post("/:code", async (req, res) => {
+  const token = req.cookies.jwtCookieToken;
+
+  console.log(token);
+
   try {
     const { code, user_id } = req.params;
 

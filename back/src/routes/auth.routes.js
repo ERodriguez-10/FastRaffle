@@ -1,11 +1,24 @@
 import { Router } from "express";
 import passport from "passport";
 
-import DiscordStrategy from "../config/discord.config.js";
-
 import { generateJWToken } from "../utils/jwt.js";
 
+import DiscordStrategy from "../config/discord.config.js";
+import JwtStrategy from "../config/jwt.config.js";
+
+passport.use(DiscordStrategy);
+passport.use(JwtStrategy);
+
 const authRouter = Router();
+
+authRouter.use(passport.initialize());
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 authRouter.get("/discord", passport.authenticate(DiscordStrategy));
 
@@ -30,8 +43,7 @@ authRouter.get(
     const access_token = generateJWToken(tokenUser);
 
     res.cookie("jwtCookieToken", access_token, {
-      maxAge: 60000,
-      httpOnly: true,
+      httpOnly: false,
     });
 
     res.redirect("http://localhost:5173/success");
