@@ -3,9 +3,25 @@ import Button from "../../components/Button/Button.jsx";
 import Card from "../../components/Card/Card.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
+  const [token, setToken] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const token = Cookies.get("jwtCookieToken");
+    const decoded = jwtDecode(token);
+
+    console.log(token);
+    console.log(decoded);
+
+    setUser(decoded);
+    setToken(token);
+  }, []);
 
   const [raffles, setRaffles] = useState([]);
 

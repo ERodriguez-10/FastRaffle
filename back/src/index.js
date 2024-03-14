@@ -6,11 +6,10 @@ import "./config/env.config.js";
 
 import authRouter from "./routes/auth.routes.js";
 import MongoSingleton from "./config/db/mongodb.config.js";
-import passport from "passport";
 import cookieParser from "cookie-parser";
 
-import initializePassport from "./config/jwt.config.js";
 import raffleRouter from "./routes/raffle.routes.js";
+import { configEnv } from "./config/env.config.js";
 
 const expressApp = express();
 
@@ -20,11 +19,9 @@ const corsOptions = {
   origin: "http://localhost:5173", // Cambia esto al origen correcto de tu aplicación
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   allowedHeaders:
-    "Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Allow-Headers, Access-Control-Allow-Origin",
+    "Content-Type, Authorization, X-Request-With, Accept, Origin, Access-Control-Allow-Headers",
+  credentials: true,
 };
-
-// Middleware
-expressApp.use(cors(corsOptions));
 
 // Middleware
 expressApp.use(cors(corsOptions));
@@ -32,10 +29,7 @@ expressApp.use(cors(corsOptions));
 expressApp.use(express.json());
 expressApp.use(express.urlencoded({ extended: true }));
 
-expressApp.use(cookieParser());
-
-initializePassport();
-expressApp.use(passport.initialize());
+expressApp.use(cookieParser(configEnv.COOKIE_SECRET));
 
 expressApp.get("/", (req, res) => {
   res.send("Hello World!");
