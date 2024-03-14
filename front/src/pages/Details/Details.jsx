@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button.jsx";
 
 const Details = ({ r }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
   const [raffleData, setRaffleData] = useState(null);
   const [error, setError] = useState(null);
@@ -80,13 +81,18 @@ const Details = ({ r }) => {
             </>
           )}
           <div className="col-span-1 flex justify-end">
-            <Button
+          <Button 
+              onClickFunction={() => {setIsModalOpen(true); console.log("pase por acá")}}
               text={"Sortear"}
               bg={"#ffa988"}
-              className={
-                "my-8 mx-2 px-6 py-2 rounded-md font-bold text-black w-1/3"
-              }
+              className={"my-8 mx-2 px-6 py-2 rounded-md font-bold text-black w-1/3"}
+
             />
+            <div>
+                {isModalOpen && (
+                  <Modal formName={"winners"} isOpen={isModalOpen} setOpenModalFunction={() => setIsModalOpen(false)} />
+                    )}
+            </div>
           </div>
         </div>
         <div className="w-full p-5 text-white">
