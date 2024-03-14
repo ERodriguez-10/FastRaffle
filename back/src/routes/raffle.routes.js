@@ -1,5 +1,6 @@
 import { Router } from "express";
 import RaffleServices from "../services/raffle.services.js";
+import UserServices from "../services/user.services.js";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -65,5 +66,41 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
     res.status(404).json({ error: true, message: "Usuario no registrado" });
   }
 });
+
+raffleRouter.post("/:code/giveaway",async(req,res)=>{
+
+
+  try{
+    const {code} = req.params;
+    const existRaffle = await sRaffle.getAllRaffles(code);
+
+    if(!existRaffle){
+      return res.status(404).json({ message: "Raffle not found" });
+    }
+    const participants = existRaffle.participants;
+    const totalparticipants = participants.length;
+
+    const winners = [];
+    const winnerIndices = [];
+
+    for(i=0;i<3;i++){
+      const randomIndex = Math.floor(Math.random()*totalparticipants)
+
+      if (!winnerIndices.includes(randomIndex)) {
+        winnerIndices.push(randomIndex);
+        winners.push(participants[randomIndex]);
+      }
+    }    
+    
+    await raffleModel.updateOne(
+      { code: code },
+      { $set: { winners: winners } }
+    );
+
+  }catch(err){
+    console.log(err)
+    console.log(err)
+  }
+})
 
 export default raffleRouter;
