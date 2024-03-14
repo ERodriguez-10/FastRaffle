@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button.jsx";
+import Modal from "../../components/Modal/Modal.jsx";
 
 const Details = ({ r }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
