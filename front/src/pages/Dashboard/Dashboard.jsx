@@ -85,7 +85,7 @@ const Dashboard = () => {
               {raffles.map((r) => {
                 return (
                   <Card
-                    key={r.raffle_id}
+                    key={r._id}
                     title={r.title}
                     description={r.description}
                     code={r.code}

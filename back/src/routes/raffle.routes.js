@@ -50,8 +50,6 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
 
     const existRaffle = await sRaffle.getRaffleByCode(code);
 
-    console.log(existRaffle);
-
     const raffleId = existRaffle._id;
 
     const addParticipant = await sRaffle.addParticipantToRaffle(
@@ -59,7 +57,6 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
       user_id
     );
 
-    console.log(addParticipant);
     res.status(200).json({ message: "Is ok" });
   } catch (err) {
     console.log(err);
