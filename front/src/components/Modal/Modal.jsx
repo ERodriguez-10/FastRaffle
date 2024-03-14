@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Form from "../Forms/Form.jsx";
 import FormCode from "../Forms/FormCode.jsx";
 
-const Modal = ({ setOpenModalFunction, isOpen, formName }) => {
+const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
   const cancelButtonRef = useRef(null);
 
   return (
@@ -39,16 +39,22 @@ const Modal = ({ setOpenModalFunction, isOpen, formName }) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 {() => {
-                    switch(formName){
-                      case "raffle":
-                        return <Form setOpenModalFunction={setOpenModalFunction} />
-                      case "code":
-                        return <FormCode setOpenModalFunction={setOpenModalFunction} />
-                      default:
-                        return <></> 
-                    }
+                  switch (formName) {
+                    case "raffle":
+                      return (
+                        <Form setOpenModalFunction={setOpenModalFunction} />
+                      );
+                    case "code":
+                      return (
+                        <FormCode
+                          setOpenModalFunction={setOpenModalFunction}
+                          user={user}
+                        />
+                      );
+                    default:
+                      return <></>;
                   }
-                }
+                }}
               </Dialog.Panel>
             </Transition.Child>
           </div>

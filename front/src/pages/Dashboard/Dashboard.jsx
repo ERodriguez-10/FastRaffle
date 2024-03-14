@@ -9,18 +9,13 @@ import { jwtDecode } from "jwt-decode";
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
-  const [token, setToken] = useState(false);
   const [user, setUser] = useState({});
 
   useEffect(() => {
     const token = Cookies.get("jwtCookieToken");
     const decoded = jwtDecode(token);
 
-    console.log(token);
-    console.log(decoded);
-
     setUser(decoded);
-    setToken(token);
   }, []);
 
   const [raffles, setRaffles] = useState([]);
@@ -52,52 +47,45 @@ const Dashboard = () => {
           setOpenModalFunction={() => setCodeModalOpen(!codeModalOpen)}
           isOpen={codeModalOpen}
           formName={"code"}
+          user={user.user.user_id}
         />
       ) : (
         <></>
       )}
       <div className="bg-impresario">
-        <div className="container mx-auto">
-          <div
-            className="flex justify-between text-white"
-            style={{ width: "100%" }}
-          >
-            <h1
-              className="my-auto font-bold text-2xl"
-              style={{ background: "transparent", display: "inline" }}
-            >
-              Panel Principal
-            </h1>
-            <div className="">
+        <div className="container mx-auto min-h-screen">
+          <div className="flex flex-col md:flex-row justify-between text-white w-full">
+            <h1 className="my-auto font-bold text-4xl p-8">Panel Principal</h1>
+            <div className="mx-10 md:flex md:justify-between md:mx-0 md:px-4">
               <Button
-                text={"Vista de Creador"}
+                text={"Nuevo sorteo"}
                 bg={"transparent"}
                 iconName={"ri-admin-line"}
                 onClickFunction={() => setIsOpenModal(true)}
                 className={
-                  "my-8 mx-2 px-6 py-2 rounded-md font-bold border border-gray-400"
+                  "md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold border border-gray-400"
                 }
               />
               <Button
-                text={"Ingresa Código"}
+                text={"Ingresar código"}
                 bg={"#ffa988"}
                 iconName={"ri-add-circle-line"}
                 onClickFunction={() => setCodeModalOpen(true)}
                 className={
-                  "my-8 mx-2 px-6 py-2 rounded-md font-bold text-black"
+                  "mt-4 mb-8 md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold text-black"
                 }
               />
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full px-4">
             <input
               className="w-full p-2 border rounded-lg text-white"
               type="text"
               placeholder="Buscar..."
             />
           </div>
-          <div className="h-full w-full">
-            <div className="w-full my-10 grid grid-cols-3 gap-8">
+          <div className="h-full w-full px-4">
+            <div className="w-full my-10 grid md:grid-cols-3 gap-8">
               {raffles.map((r) => {
                 return (
                   <Card

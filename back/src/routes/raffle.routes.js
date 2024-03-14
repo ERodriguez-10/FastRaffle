@@ -44,11 +44,7 @@ raffleRouter.post("/", async (req, res) => {
   }
 });
 
-raffleRouter.post("/:code", async (req, res) => {
-  const token = req.cookies.jwtCookieToken;
-
-  console.log(token);
-
+raffleRouter.post("/:code/user/:user_id", async (req, res) => {
   try {
     const { code, user_id } = req.params;
 
@@ -61,9 +57,12 @@ raffleRouter.post("/:code", async (req, res) => {
       user_id
     );
 
-    res.status(200).json({ message: "Is ok" });
+    console.log(addParticipant);
+
+    res.status(200).json({ error: false, message: "Usuario registrado" });
   } catch (err) {
     console.log(err);
+    res.status(404).json({ error: true, message: "Usuario no registrado" });
   }
 });
 
