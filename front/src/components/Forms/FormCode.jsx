@@ -55,7 +55,7 @@ const FormCode = ({ setOpenModalFunction }) => {
                 <div className="mt-2">
                   <input
                     {...register("code", { required: true })}
-                    placeholder="Codigo..."
+                    placeholder="Código..."
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   {errors.code && (
@@ -72,13 +72,13 @@ const FormCode = ({ setOpenModalFunction }) => {
                   className="text-sm font-semibold leading-6 text-white"
                   onClick={setOpenModalFunction}
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Save
+                  Guardar
                 </button>
               </div>
             </div>
