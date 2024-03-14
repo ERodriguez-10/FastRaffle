@@ -34,7 +34,10 @@ export default class RaffleServices {
 
   getRaffleByCode = async (code) => {
     try {
-      const raffle = await raffleModel.findOne({ code: code });
+      const raffle = await raffleModel
+        .findOne({ code: code })
+        .populate("participants");
+      console.log(raffle);
       return raffle;
     } catch (err) {
       console.log(err);

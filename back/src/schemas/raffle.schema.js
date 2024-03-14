@@ -9,7 +9,7 @@ const raffleSchema = new Schema({
   description: { type: String, required: true },
   hasMaxSize: { type: Boolean, required: true },
   maxSize: { type: Number },
-  participants: { type: Array, required: true },
+  participants: [{ type: Schema.Types.ObjectId, ref: "users" }],
   isActive: { type: Boolean, required: true },
   winners: { type: Array },
   dateStart: { type: Date, default: Date.now },
