@@ -2,6 +2,7 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Form from "../Forms/Form.jsx";
 import FormCode from "../Forms/FormCode.jsx";
+import ModalWinners from "./ModalWinners.jsx";
 
 const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
   const cancelButtonRef = useRef(null);
@@ -51,6 +52,10 @@ const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
                           user={user}
                         />
                       );
+                    case "winners" :
+                      return (
+                        <ModalWinners/>
+                      )
                     default:
                       return <></>;
                   }
