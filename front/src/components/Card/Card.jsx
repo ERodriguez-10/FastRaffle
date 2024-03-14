@@ -5,7 +5,7 @@ const Card = ({ title, description, code }) => {
       <p className="text-gray-400 text-sm my-2">{description}</p>
 
       <p className="text-white font-bold">
-        Participation Code:{" "}
+        Código de participación:{" "}
         <span className="text-gray-400 text-sm">{code}</span>
       </p>
     </div>
