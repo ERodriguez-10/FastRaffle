@@ -6,13 +6,13 @@ import UserCard from '../Card/UserCard';
 //-estilos
 //-setIsOpenModal
 
-function FetchUsersModal() {
+function ModalWinners() {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     try {
       const codigo = 'codigo_aqui';
-      const response = await fetch(`URL/${codigo}`)
+      const response = await fetch(`/${codigo}/giveaway`)
       if (!response.ok) {
         throw new Error('La respuesta no fue exitosa')
       }
@@ -36,4 +36,4 @@ function FetchUsersModal() {
   )
 }
 
-export default FetchUsersModal;
+export default ModalWinners;
