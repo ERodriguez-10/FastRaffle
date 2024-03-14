@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
 
 const FormCode = ({ setOpenModalFunction }) => {
+  const cookieToken = Cookies.get("jwtCookieToken");
   const {
     handleSubmit,
     register,
@@ -8,29 +10,31 @@ const FormCode = ({ setOpenModalFunction }) => {
   } = useForm();
   const onSubmit = async (data) => {
     const rCode = data.code;
+    console.log(rCode);
+    console.log(cookieToken);
     setOpenModalFunction();
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/raffle/${rCode}/user/123456`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // try {
+    //   const response = await fetch(
+    //     `http://localhost:8080/api/raffle/${rCode}/user/123456`,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! Status: ${response.status}`);
+    //   }
 
-      const responseData = await response.json();
-      console.log(responseData);
+    //   const responseData = await response.json();
+    //   console.log(responseData);
 
-      setOpenModalFunction();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    //   setOpenModalFunction();
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
   };
   return (
     <div className="w-full bg-impresario">
