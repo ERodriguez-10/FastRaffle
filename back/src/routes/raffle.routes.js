@@ -58,23 +58,25 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
       user_id
     );
 
-    console.log(addParticipant);
+    if (!addParticipant) {
+      return res.status(200).json({
+        error: true,
+        message: "Código ya utilizado. ¡Ya estás participando de este sorteo!",
+      });
+    }
 
     res.status(200).json({ error: false, message: "Usuario registrado" });
   } catch (err) {
-    console.log(err);
-    res.status(404).json({ error: true, message: "Usuario no registrado" });
+    res.status(400).json({ error: true, message: err.message });
   }
 });
 
-raffleRouter.post("/:code/giveaway",async(req,res)=>{
-
-
-  try{
-    const {code} = req.params;
+raffleRouter.post("/:code/giveaway", async (req, res) => {
+  try {
+    const { code } = req.params;
     const existRaffle = await sRaffle.getAllRaffles(code);
 
-    if(!existRaffle){
+    if (!existRaffle) {
       return res.status(404).json({ message: "Raffle not found" });
     }
     const participants = existRaffle.participants;
@@ -83,24 +85,20 @@ raffleRouter.post("/:code/giveaway",async(req,res)=>{
     const winners = [];
     const winnerIndices = [];
 
-    for(i=0;i<3;i++){
-      const randomIndex = Math.floor(Math.random()*totalparticipants)
+    for (i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * totalparticipants);
 
       if (!winnerIndices.includes(randomIndex)) {
         winnerIndices.push(randomIndex);
         winners.push(participants[randomIndex]);
       }
-    }    
-    
-    await raffleModel.updateOne(
-      { code: code },
-      { $set: { winners: winners } }
-    );
+    }
 
-  }catch(err){
-    console.log(err)
-    console.log(err)
+    await raffleModel.updateOne({ code: code }, { $set: { winners: winners } });
+  } catch (err) {
+    console.log(err);
+    console.log(err);
   }
-})
+});
 
 export default raffleRouter;

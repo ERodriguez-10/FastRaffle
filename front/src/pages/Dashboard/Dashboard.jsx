@@ -20,16 +20,16 @@ const Dashboard = () => {
 
   const [raffles, setRaffles] = useState([]);
 
+  const updateRaffles = async () => {
+    const responseRaffle = await fetch("http://localhost:8080/api/raffle");
+    const dataRaffle = await responseRaffle.json();
+
+    setRaffles(dataRaffle.raffleList);
+  };
+
   useEffect(() => {
-    async function fetchData() {
-      const responseRaffle = await fetch("http://localhost:8080/api/raffle");
-      const dataRaffle = await responseRaffle.json();
-
-      setRaffles(dataRaffle.raffleList);
-    }
-
-    fetchData();
-  });
+    updateRaffles();
+  }, [isOpenModal, codeModalOpen]);
 
   return (
     <>
@@ -87,12 +87,19 @@ const Dashboard = () => {
           <div className="h-full w-full px-4">
             <div className="w-full my-10 grid md:grid-cols-3 gap-8">
               {raffles.map((r) => {
+                const isParticipating = r.participants.includes(
+                  user.user.user_id
+                );
+
                 return (
                   <Card
                     key={r._id}
                     title={r.title}
                     description={r.description}
                     code={r.code}
+                    isParticipating={isParticipating}
+                    userId={user.user.user_id}
+                    updateRaffles={updateRaffles}
                   />
                 );
               })}

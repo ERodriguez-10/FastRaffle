@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,9 +30,24 @@ const FormCode = ({ setOpenModalFunction, user }) => {
       }
 
       const responseData = await response.json();
+      console.log(responseData);
+
       if (!responseData.error) {
-        toast.success("🦄 Wow so easy!", {
-          position: "top-center",
+        toast.success("¡Tu participación se ha registrado correctamente!", {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        setOpenModalFunction();
+      } else {
+        toast.error(`${responseData.message}`, {
+          position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -42,8 +57,6 @@ const FormCode = ({ setOpenModalFunction, user }) => {
           theme: "colored",
         });
       }
-
-      setOpenModalFunction();
     } catch (error) {
       console.error("Error fetching data:", error);
     }

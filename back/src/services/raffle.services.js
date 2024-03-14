@@ -43,16 +43,26 @@ export default class RaffleServices {
 
   addParticipantToRaffle = async (raffle_id, user_id) => {
     try {
+      const raffle = await raffleModel.findOne({
+        _id: raffle_id,
+        participants: user_id,
+      });
+
+      if (raffle) {
+        throw new Error("El usuario ya es un participante en este sorteo");
+      }
+
       const addParticipant = await raffleModel.updateOne(
         {
           _id: raffle_id,
         },
         {
-          $push: {
+          $addToSet: {
             participants: user_id,
           },
         }
       );
+
       return addParticipant;
     } catch (err) {
       console.log(err);

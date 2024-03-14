@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         impresario: "#1d1238",
+        customOrange: "#ffa988",
       },
     },
   },
