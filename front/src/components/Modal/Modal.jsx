@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Form from "../Forms/Form.jsx";
 import FormCode from "../Forms/FormCode.jsx";
 import ModalWinners from "./ModalWinners.jsx";
+import FormLogin from "../Forms/FormLogin.jsx";
 
 const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
   const cancelButtonRef = useRef(null);
@@ -58,6 +59,10 @@ const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
                           setOpenModalFunction={setOpenModalFunction}
                         />
                       );
+                    case "login":
+                      return(
+                        <FormLogin setOpenModalFunction={setOpenModalFunction}/>
+                      )
                     default:
                       return <></>;
                   }
