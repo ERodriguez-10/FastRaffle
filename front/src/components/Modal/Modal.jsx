@@ -54,7 +54,7 @@ const Modal = ({ setOpenModalFunction, isOpen, formName, user }) => {
                       );
                     case "winners" :
                       return (
-                        <ModalWinners/>
+                        <ModalWinners setOpenModalFunction={setOpenModalFunction}/>
                       )
                     default:
                       return <></>;
