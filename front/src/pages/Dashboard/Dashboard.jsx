@@ -77,34 +77,32 @@ const Dashboard = () => {
               />
             </div>
           </div>
-          <div className="w-full px-4">
+          {/*<div className="w-full px-4">
             <input
               className="w-full p-2 border rounded-lg text-white"
               type="text"
               placeholder="Buscar..."
             />
-          </div>
-          <div className="h-full w-full px-4">
-            <div className="w-full my-10 grid md:grid-cols-3 gap-8">
-              {raffles.map((r) => {
-                const isParticipating = r.participants.includes(
-                  user.user.user_id
-                );
+          </div>*/}
+          <div className="h-full w-full px-4 my-10 grid md:grid-cols-3 gap-8">
+            {raffles.map((r) => {
+              const isParticipating = r.participants.includes(
+                user.user.user_id
+              );
 
-                return (
-                  <Link to={`/details/${r.code}`} key={r._id}>
-                    <Card
-                      title={r.title}
-                      description={r.description}
-                      code={r.code}
-                      isParticipating={isParticipating}
-                      userId={user.user.user_id}
-                      updateRaffles={updateRaffles}
-                    />
-                  </Link>
-                );
-              })}
-            </div>
+              return (
+                <Link to={`/details/${r.code}`} key={r._id}>
+                  <Card
+                    title={r.title}
+                    description={r.description}
+                    code={r.code}
+                    isParticipating={isParticipating}
+                    userId={user.user.user_id}
+                    updateRaffles={updateRaffles}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
