@@ -40,7 +40,7 @@ const Details = () => {
     if (raffleData && !loading && user !== null) {
       console.log(user.id);
       setIsParticipating(
-        raffleData.participants.some((ob) => ob._id === user.id)
+        raffleData.participants.some((ob) => ob.user_id === user.id)
       );
     }
   }, [raffleData]);
@@ -121,7 +121,7 @@ const Details = () => {
             <div>
               <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
                 <div className="col-span-full text-white sm:col-span-1">
-                  <Link to={"/success"}>
+                  <Link to={"/dashboard"}>
                     <i className="ri-arrow-left-line text-4xl"></i>
                   </Link>
                 </div>

@@ -10,6 +10,7 @@ const Dashboard = () => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   const [raffles, setRaffles] = useState([]);
 
@@ -44,7 +45,7 @@ const Dashboard = () => {
               setOpenModalFunction={() => setCodeModalOpen(!codeModalOpen)}
               isOpen={codeModalOpen}
               formName={"code"}
-              user={user.user_id}
+              user={user.id}
             />
           ) : (
             <></>
@@ -56,15 +57,17 @@ const Dashboard = () => {
                   Panel Principal
                 </h1>
                 <div className="mx-10 md:flex md:justify-between md:mx-0 md:px-4">
-                  <Button
-                    text={"Nuevo sorteo"}
-                    bg={"transparent"}
-                    iconName={"ri-admin-line"}
-                    onClickFunction={() => setIsOpenModal(true)}
-                    className={
-                      "md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold border border-gray-400"
-                    }
-                  />
+                  {isAdmin && (
+                    <Button
+                      text={"Nuevo sorteo"}
+                      bg={"transparent"}
+                      iconName={"ri-admin-line"}
+                      onClickFunction={() => setIsOpenModal(true)}
+                      className={
+                        "md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold border border-gray-400"
+                      }
+                    />
+                  )}
                   <Button
                     text={"Ingresar código"}
                     bg={"#ffa988"}
@@ -94,7 +97,9 @@ const Dashboard = () => {
           </div>*/}
               <div className="h-full w-full px-4 my-10 grid md:grid-cols-3 gap-8">
                 {raffles.map((r) => {
-                  const isParticipating = r.participants.includes(user.user_id);
+                  const isParticipating = r.participants.some(
+                    (p) => p.user_id === user.id
+                  );
 
                   return (
                     <Link to={`/details/${r.code}`} key={r._id}>
@@ -103,7 +108,7 @@ const Dashboard = () => {
                         description={r.description}
                         code={r.code}
                         isParticipating={isParticipating}
-                        userId={user.user_id}
+                        userId={user.id}
                         updateRaffles={updateRaffles}
                       />
                     </Link>
