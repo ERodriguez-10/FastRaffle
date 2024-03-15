@@ -7,34 +7,30 @@ import UserCard from "../Card/UserCard";
 //-setIsOpenModal
 
 function ModalWinners({ setOpenModalFunction }) {
-  const [users, setUsers] = useState([
-    {
-      user_id: "asdq",
-      globalname: "Mariano",
-      avatar_id: "Hola",
-    },
-    {
-      user_id: "asdq",
-      globalname: "Lucero",
-      avatar_id: "Hola",
-    },
-    {
-      user_id: "asdq",
-      globalname: "Keito",
-      avatar_id: "Hola",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     try {
-      const codigo = "codigo_aqui";
-      const response = await fetch(`/${codigo}/giveaway`);
+      const path = window.location.pathname;
+      const params = path.split("/").filter((part) => part !== "");
+      const code = params[params.length - 1];
+
+      const response = await fetch(
+        `http://localhost:8080/api/raffle/${code}/giveaway`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       if (!response.ok) {
         throw new Error("La respuesta no fue exitosa");
       }
 
       const data = await response.json();
-      setUsers(data);
+      setUsers(data.winners);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
     }
@@ -62,17 +58,34 @@ function ModalWinners({ setOpenModalFunction }) {
             </button>
           </div>
         </div>
-        <div className="flex justify-between gap-4">
-          {users.slice(1, 2).map((user, index) => (
-            <UserCard key={user.user_id} user={user} position={2} className={"mt-3"}/>
-          ))}
-          {users.slice(0, 1).map((user, index) => (
-            <UserCard key={user.user_id} user={user} position={1} className={"mt-0"}/>
-          ))}
-          {users.slice(2, 3).map((user, index) => (
-            <UserCard key={user.user_id} user={user} position={3} className={"mt-6"}/>
-          ))}
-        </div>
+        {users.length > 0 && (
+          <div className="flex justify-between gap-4">
+            {users.slice(1, 2).map((user) => (
+              <UserCard
+                key={user.user_id}
+                u={user}
+                position={2}
+                className={"mt-3"}
+              />
+            ))}
+            {users.slice(0, 1).map((user) => (
+              <UserCard
+                key={user.user_id}
+                u={user}
+                position={1}
+                className={"mt-0"}
+              />
+            ))}
+            {users.slice(2, 3).map((user) => (
+              <UserCard
+                key={user.user_id}
+                u={user}
+                position={3}
+                className={"mt-6"}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

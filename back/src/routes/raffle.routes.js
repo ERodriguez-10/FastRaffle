@@ -1,6 +1,7 @@
 import { Router } from "express";
 import RaffleServices from "../services/raffle.services.js";
 import UserServices from "../services/user.services.js";
+import raffleModel from "../schemas/raffle.schema.js";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -86,7 +87,7 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
 raffleRouter.post("/:code/giveaway", async (req, res) => {
   try {
     const { code } = req.params;
-    const existRaffle = await sRaffle.getAllRaffles(code);
+    const existRaffle = await sRaffle.getRaffleByCode(code);
 
     if (!existRaffle) {
       return res.status(404).json({ message: "Raffle not found" });
@@ -97,7 +98,7 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
     const winners = [];
     const winnerIndices = [];
 
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       const randomIndex = Math.floor(Math.random() * totalparticipants);
 
       if (!winnerIndices.includes(randomIndex)) {
