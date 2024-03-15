@@ -115,15 +115,15 @@ const Details = () => {
 
   return (
     <div className="bg-impresario">
-      <div className="container mx-auto my-auto text-start h-screen flex flex-col justify-between">
+      <div className="container mx-auto my-auto text-start flex flex-col justify-between lg:h-screen">
         <div>
           <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
-            <div className="col-span-1 text-white">
+            <div className="col-span-full text-white sm:col-span-1">
               <Link to={"/success"}>
                 <i className="ri-arrow-left-line text-4xl"></i>
               </Link>
             </div>
-            <div className="col-span-5 text-white">
+            <div className="col-span-full text-white sm:col-span-5">
               <h1 className="font-bold text-lg py-1">
                 Titulo:{" "}
                 <span className="text-base font-normal">
@@ -159,7 +159,7 @@ const Details = () => {
               )}
             </div>
 
-            <div className="col-span-5 text-white">
+            <div className="col-span-full text-white sm:col-span-5">
               <p className="text-lg font-bold py-1">
                 Creador: <span className="text-base font-normal">Admin</span>
               </p>
@@ -177,7 +177,7 @@ const Details = () => {
               </p>
             </div>
 
-            <div className="col-span-1 flex justify-end items-start">
+            <div className="col-span-full flex justify-end items-start sm:col-span-1">
               <Button
                 onClickFunction={() => {
                   setIsModalOpen(true);
@@ -194,7 +194,7 @@ const Details = () => {
               Participantes
             </h2>
 
-            <div className="flex flex-row gap-4 items-start overflow-y-auto flex-wrap max-h-[480px] p-5">
+            <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
               {raffleData &&
                 raffleData.participants.map((p) => {
                   return (
@@ -227,7 +227,7 @@ const Details = () => {
           <Button
             text={"¡Ya estás participando!"}
             className={
-              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto bg-green-400"
+              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
             }
           />
         ) : (
