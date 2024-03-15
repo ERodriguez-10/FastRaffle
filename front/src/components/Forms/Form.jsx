@@ -25,7 +25,6 @@ const Form = ({ setOpenModalFunction }) => {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
 
       setOpenModalFunction();
     } catch (error) {

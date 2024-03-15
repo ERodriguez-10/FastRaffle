@@ -1,35 +1,53 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Button from "../../components/Button/Button.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 
-const Details = ({ r }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+
+const Details = () => {
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [raffleData, setRaffleData] = useState(null);
-  const [error, setError] = useState(null);
+  const [user, setUser] = useState("");
+  const [isParticipating, setIsParticipating] = useState(false);
+
+  const updateRaffles = async () => {
+    try {
+      const responseRaffle = await fetch(
+        `http://localhost:8080/api/raffle/${id}`
+      );
+      if (!responseRaffle.ok) {
+        throw new Error("Error al cargar los datos");
+      }
+      const dataRaffle = await responseRaffle.json();
+
+      setRaffleData(dataRaffle.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const updateRaffles = async () => {
-      try {
-        const responseRaffle = await fetch(
-          `http://localhost:8080/api/raffle/${id}`
-        );
-        if (!responseRaffle.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        const dataRaffle = await responseRaffle.json();
-
-        console.log(dataRaffle.data);
-
-        setRaffleData(dataRaffle.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
     updateRaffles();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    const token = Cookies.get("jwtCookieToken");
+    const decoded = jwtDecode(token);
+
+    setUser(decoded.user.user_id);
+
+    if (raffleData) {
+      setIsParticipating(
+        raffleData.participants.some((ob) => ob._id === decoded.user.user_id)
+      );
+    }
+  }, [raffleData]);
 
   const formatDate = (date) => {
     let fecha = new Date(date);
@@ -47,82 +65,181 @@ const Details = ({ r }) => {
     return fechaFormateada; // Debería imprimir "17-03-2024"
   };
 
+  const handleParticipate = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/raffle/${id}/user/${user}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      if (!responseData.error) {
+        toast.success("¡Tu participación se ha registrado correctamente!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        await updateRaffles();
+      } else {
+        toast.error(`${responseData.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div className="bg-impresario">
-      <div className="container mx-auto my-auto text-start h-screen flex flex-col">
-        <div className="grid grid-cols-4 h-1/5 w-full p-5 border-0 border-b-2 border-gray-400">
-          {raffleData && (
-            <>
-              <div className="col-span-2 text-white">
-                <h1 className="font-extrabold text-3x1">
-                  Titulo: {raffleData.title}
-                </h1>
-                <p className="text-lg">Descripcion: {raffleData.description}</p>
-                <p className="text-lg">
-                  Codigo de participación:
-                  <span className="text-gray-400">{raffleData.code}</span>
+      <div className="container mx-auto my-auto text-start h-screen flex flex-col justify-between">
+        <div>
+          <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
+            <div className="col-span-1 text-white">
+              <Link to={"/success"}>
+                <i className="ri-arrow-left-line text-4xl"></i>
+              </Link>
+            </div>
+            <div className="col-span-5 text-white">
+              <h1 className="font-bold text-lg py-1">
+                Titulo:{" "}
+                <span className="text-base font-normal">
+                  {raffleData && raffleData.title}
+                </span>
+              </h1>
+              <p className="text-lg font-bold py-1">
+                Descripcion:{" "}
+                <span className="text-base font-normal">
+                  {raffleData && raffleData.description}
+                </span>
+              </p>
+              <p className="text-lg font-bold py-1">
+                Codigo de participación:{" "}
+                <span className="text-base font-normal">
+                  {raffleData && raffleData.code}
+                </span>
+              </p>
+              {raffleData && raffleData.hasMaxSize && (
+                <p className="text-lg font-bold">
+                  Cantidad máxima de participantes:{" "}
+                  <span className="text-base font-normal">
+                    {raffleData && raffleData.maxSize}
+                  </span>
                 </p>
-                {raffleData.hasMaxSize && (
-                  <p className="text-lg">
-                    Cantidad máxima de participantes: {raffleData.maxSize}
-                  </p>
-                )}
+              )}
 
-                {!raffleData.hasMaxSize && (
-                  <p className="text-lg">
-                    Cantidad máxima de participantes: Ilimitada
-                  </p>
-                )}
-              </div>
-              <div className="col-span-1 text-white">
-                <h2>Creador: Admin</h2>
-                <p>Fecha inicio: {formatDate(raffleData.dateStart)}</p>
-                <p>Fecha final: {formatDate(raffleData.dateEnd)}</p>
-              </div>
-            </>
-          )}
-          <div className="col-span-1 flex justify-end">
-          <Button 
-              onClickFunction={() => {setIsModalOpen(true); console.log("pase por acá")}}
-              text={"Sortear"}
-              bg={"#ffa988"}
-              className={"my-8 mx-2 px-6 py-2 rounded-md font-bold text-black w-1/3"}
+              {raffleData && !raffleData.hasMaxSize && (
+                <p className="text-lg font-bold py-2">
+                  Cantidad máxima de participantes:{" "}
+                  <span className="text-base font-normal">Ilimitada</span>
+                </p>
+              )}
+            </div>
 
-            />
-            <div>
-                {isModalOpen && (
-                  <Modal formName={"winners"} isOpen={isModalOpen} setOpenModalFunction={() => setIsModalOpen(false)} />
-                    )}
+            <div className="col-span-5 text-white">
+              <p className="text-lg font-bold py-1">
+                Creador: <span className="text-base font-normal">Admin</span>
+              </p>
+              <p className="text-lg font-bold py-1">
+                Fecha inicio:{" "}
+                <span className="text-base font-normal">
+                  {raffleData && formatDate(raffleData.dateStart)}
+                </span>
+              </p>
+              <p className="text-lg font-bold py-1">
+                Fecha final:{" "}
+                <span className="text-base font-normal">
+                  {raffleData && formatDate(raffleData.dateEnd)}
+                </span>
+              </p>
+            </div>
+
+            <div className="col-span-1 flex justify-end items-start">
+              <Button
+                onClickFunction={() => {
+                  setIsModalOpen(true);
+                }}
+                text={"Sortear"}
+                bg={"#ffa988"}
+                className={"px-6 py-2 rounded-md font-bold text-black"}
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-center my-8 font-bold text-4xl text-white">
+              Participantes
+            </h2>
+
+            <div className="flex flex-row gap-4 items-start overflow-y-auto flex-wrap max-h-[480px] p-5">
+              {raffleData &&
+                raffleData.participants.map((p) => {
+                  return (
+                    <div className="flex flex-col px-3" key={p._id}>
+                      <img
+                        src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
+                        width={64}
+                        height={64}
+                        className="rounded-full mx-auto"
+                      />
+                      <p className="text-white text-center pt-4">
+                        {p.globalname}
+                      </p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
-        <div className="w-full p-5 text-white">
-          <h2 className="text-center my-4 font-bold text-2x1">Participantes</h2>
-          <div className="flex flex-row gap-4 my-auto overflow-y-auto flex-wrap max-h-[480px]">
-            {raffleData &&
-              raffleData.participants.map((p) => {
-                return (
-                  <>
-                    <img
-                      src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
-                      width={64}
-                      height={64}
-                    />
-                    <p className="text-white">{p.globalname}</p>
-                  </>
-                );
-              })}
-          </div>
-        </div>
-        <div className="flex justify-center">
+
+        {isModalOpen && (
+          <Modal
+            formName={"winners"}
+            isOpen={isModalOpen}
+            setOpenModalFunction={() => setIsModalOpen(false)}
+          />
+        )}
+
+        {isParticipating ? (
+          <Button
+            text={"¡Ya estás participando!"}
+            className={
+              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto bg-green-400"
+            }
+          />
+        ) : (
           <Button
             text={"Participar"}
             bg={"#ffa988"}
             className={
-              "my-8 mx-2 px-6 py-2 rounded-md font-bold text-black w-1/3"
+              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
             }
+            onClickFunction={handleParticipate}
           />
-        </div>
+        )}
       </div>
     </div>
   );

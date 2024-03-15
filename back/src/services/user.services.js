@@ -6,7 +6,6 @@ export default class UserServices {
   createAccount = async (user) => {
     try {
       const account = await userModel.create(user);
-      console.log(account);
       return account;
     } catch (err) {
       console.log(err);

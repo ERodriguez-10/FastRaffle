@@ -30,7 +30,6 @@ const FormCode = ({ setOpenModalFunction, user }) => {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (!responseData.error) {
         toast.success("¡Tu participación se ha registrado correctamente!", {
