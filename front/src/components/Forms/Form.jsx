@@ -17,7 +17,10 @@ const Form = ({ setOpenModalFunction }) => {
   const schema = yup.object().shape({
     title: yup.string().required("Este campo es obligatorio"),
     description: yup.string().required("Este campo es obligatorio"),
-    dateStart: yup.date().required("Este campo es obligatorio"),
+    dateStart: yup
+      .date()
+      .min(new Date(), "La fecha de inicio debe ser mayor a la fecha de hoy")
+      .required("Este campo es obligatorio"),
     dateEnd: yup
       .date()
       .min(
@@ -131,7 +134,7 @@ const Form = ({ setOpenModalFunction }) => {
                   />
                   {errors.dateStart && (
                     <span className="text-white">
-                      Este campo es obligatorio
+                      {errors.dateStart.message}
                     </span>
                   )}
                 </div>
