@@ -4,9 +4,11 @@ import Modal from "../../components/Modal/Modal.jsx";
 
 const Login = () => {
   const [openModal, setOpenModal] = useState(false);
+
   const handleLogin = async () => {
     window.location.href = "http://localhost:8080/api/auth/discord";
   };
+
   return (
     <>
       {openModal && (
@@ -25,20 +27,22 @@ const Login = () => {
           <h1 className="text-center text-white text-3xl">
             Inicia sesión para continuar!
           </h1>
-          <Button
-            onClickFunction={handleLogin}
-            text={"Soy Usuario"}
-            iconName={"ri-user-fill"}
-            bg={"#ffa988"}
-            className={"mt-8 px-10 py-2 rounded-md font-bold w-52"}
-          />
-          <Button
-            onClickFunction={() => setOpenModal(true)}
-            text={"Soy Admin"}
-            iconName={"ri-admin-fill"}
-            bg={"#ffa988"}
-            className={"mt-4 px-10 py-2 rounded-md font-bold w-52"}
-          />
+          <div>
+            <Button
+              onClickFunction={handleLogin}
+              text={"Continuar con Discord"}
+              iconName={"ri-discord-fill"}
+              bg={"#ffa988"}
+              className={"mt-8 mx-6 px-10 py-2 rounded-md font-bold"}
+            />
+            <Button
+              onClickFunction={() => setOpenModal(true)}
+              text={"Soy Admin"}
+              iconName={"ri-admin-fill"}
+              bg={"#ffa988"}
+              className={"mt-8 mx-6 px-10 py-2 rounded-md font-bold"}
+            />
+          </div>
         </div>
       </div>
     </>

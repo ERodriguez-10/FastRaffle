@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
             setUser(data.user);
           } else {
             setUser(null);
-            navigate("/login");
+            navigate("/");
           }
           setLoading(false);
         })
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
         });
     } else {
       setLoading(false);
-      navigate("/login");
+      navigate("/");
     }
   };
 

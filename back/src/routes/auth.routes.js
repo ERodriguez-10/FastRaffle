@@ -29,7 +29,7 @@ authRouter.get(
       httpOnly: false,
     });
 
-    res.redirect("http://localhost:5173/success");
+    res.redirect("http://localhost:5173/dashboard");
   }
 );
 
