@@ -1,12 +1,44 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const validateDateEnd = (dateEnd, { parent }) => {
+  const { dateStart } = parent;
+  if (dateEnd && dateStart) {
+    return (
+      dateEnd >= dateStart ||
+      "La fecha de finalización debe ser mayor o igual a la fecha de inicio"
+    );
+  }
+};
 
 const Form = ({ setOpenModalFunction }) => {
+  const schema = yup.object().shape({
+    title: yup.string().required("Este campo es obligatorio"),
+    description: yup.string().required("Este campo es obligatorio"),
+    dateStart: yup.date().required("Este campo es obligatorio"),
+    dateEnd: yup
+      .date()
+      .min(
+        yup.ref("dateStart"),
+        "La fecha de finalización debe ser mayor o igual a la fecha de inicio"
+      )
+      .required("Este campo es obligatorio")
+      .test(
+        "dateEnd",
+        "La fecha de finalización debe ser mayor o igual a la fecha de inicio",
+        validateDateEnd
+      ),
+  });
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -115,11 +147,14 @@ const Form = ({ setOpenModalFunction }) => {
                 <div className="mt-2">
                   <input
                     type="date"
-                    {...register("dateEnd", { required: true })}
+                    {...register("dateEnd", {
+                      required: true,
+                      validate: validateDateEnd,
+                    })}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 border-gray-400 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   {errors.dateEnd && (
-                    <span className="text-white">This field is required</span>
+                    <span className="text-white">{errors.dateEnd.message}</span>
                   )}
                 </div>
               </div>
