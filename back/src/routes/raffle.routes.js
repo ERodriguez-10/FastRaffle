@@ -6,6 +6,7 @@ import raffleModel from "../schemas/raffle.schema.js";
 import { v4 as uuidv4 } from "uuid";
 
 const sRaffle = new RaffleServices();
+const sUser = new UserServices();
 
 const raffleRouter = Router();
 
@@ -66,9 +67,11 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
 
     const raffleId = existRaffle._id;
 
+    const userMongoId = await sUser.getAccountByDiscordId(user_id);
+
     const addParticipant = await sRaffle.addParticipantToRaffle(
       raffleId,
-      user_id
+      userMongoId._id
     );
 
     if (!addParticipant) {
@@ -108,7 +111,7 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
     }
 
     await raffleModel.updateOne({ code: code }, { $set: { winners: winners } });
-    res.status(200).json({winners: winners});
+    res.status(200).json({ winners: winners });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal server error" });

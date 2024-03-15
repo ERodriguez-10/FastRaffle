@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../components/Button/Button.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
@@ -6,14 +6,14 @@ import Modal from "../../components/Modal/Modal.jsx";
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Details = () => {
   const { id } = useParams();
+  const { user, loading } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [raffleData, setRaffleData] = useState(null);
-  const [user, setUser] = useState("");
   const [isParticipating, setIsParticipating] = useState(false);
 
   const updateRaffles = async () => {
@@ -37,14 +37,10 @@ const Details = () => {
   }, [id]);
 
   useEffect(() => {
-    const token = Cookies.get("jwtCookieToken");
-    const decoded = jwtDecode(token);
-
-    setUser(decoded.user.user_id);
-
-    if (raffleData) {
+    if (raffleData && !loading && user !== null) {
+      console.log(user.id);
       setIsParticipating(
-        raffleData.participants.some((ob) => ob._id === decoded.user.user_id)
+        raffleData.participants.some((ob) => ob._id === user.id)
       );
     }
   }, [raffleData]);
@@ -65,10 +61,10 @@ const Details = () => {
     return fechaFormateada; // Debería imprimir "17-03-2024"
   };
 
-  const handleParticipate = async () => {
+  const handleParticipate = async (uId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/raffle/${id}/user/${user}`,
+        `http://localhost:8080/api/raffle/${id}/user/${uId}`,
         {
           method: "POST",
           headers: {
@@ -95,6 +91,8 @@ const Details = () => {
           theme: "colored",
         });
 
+        setIsParticipating(true);
+
         await updateRaffles();
       } else {
         toast.error(`${responseData.message}`, {
@@ -114,134 +112,141 @@ const Details = () => {
   };
 
   return (
-    <div className="bg-impresario">
-      <div className="container mx-auto my-auto text-start flex flex-col justify-between lg:h-screen">
-        <div>
-          <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
-            <div className="col-span-full text-white sm:col-span-1">
-              <Link to={"/success"}>
-                <i className="ri-arrow-left-line text-4xl"></i>
-              </Link>
-            </div>
-            <div className="col-span-full text-white sm:col-span-5">
-              <h1 className="font-bold text-lg py-1">
-                Titulo:{" "}
-                <span className="text-base font-normal">
-                  {raffleData && raffleData.title}
-                </span>
-              </h1>
-              <p className="text-lg font-bold py-1">
-                Descripcion:{" "}
-                <span className="text-base font-normal">
-                  {raffleData && raffleData.description}
-                </span>
-              </p>
-              <p className="text-lg font-bold py-1">
-                Codigo de participación:{" "}
-                <span className="text-base font-normal">
-                  {raffleData && raffleData.code}
-                </span>
-              </p>
-              {raffleData && raffleData.hasMaxSize && (
-                <p className="text-lg font-bold">
-                  Cantidad máxima de participantes:{" "}
-                  <span className="text-base font-normal">
-                    {raffleData && raffleData.maxSize}
-                  </span>
-                </p>
-              )}
+    <>
+      {loading || user === null ? (
+        <div>Cargando</div>
+      ) : (
+        <div className="bg-impresario">
+          <div className="container mx-auto my-auto text-start flex flex-col justify-between lg:h-screen">
+            <div>
+              <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
+                <div className="col-span-full text-white sm:col-span-1">
+                  <Link to={"/success"}>
+                    <i className="ri-arrow-left-line text-4xl"></i>
+                  </Link>
+                </div>
+                <div className="col-span-full text-white sm:col-span-5">
+                  <h1 className="font-bold text-lg py-1">
+                    Titulo:{" "}
+                    <span className="text-base font-normal">
+                      {raffleData && raffleData.title}
+                    </span>
+                  </h1>
+                  <p className="text-lg font-bold py-1">
+                    Descripcion:{" "}
+                    <span className="text-base font-normal">
+                      {raffleData && raffleData.description}
+                    </span>
+                  </p>
+                  <p className="text-lg font-bold py-1">
+                    Codigo de participación:{" "}
+                    <span className="text-base font-normal">
+                      {raffleData && raffleData.code}
+                    </span>
+                  </p>
+                  {raffleData && raffleData.hasMaxSize && (
+                    <p className="text-lg font-bold">
+                      Cantidad máxima de participantes:{" "}
+                      <span className="text-base font-normal">
+                        {raffleData && raffleData.maxSize}
+                      </span>
+                    </p>
+                  )}
 
-              {raffleData && !raffleData.hasMaxSize && (
-                <p className="text-lg font-bold py-2">
-                  Cantidad máxima de participantes:{" "}
-                  <span className="text-base font-normal">Ilimitada</span>
-                </p>
-              )}
+                  {raffleData && !raffleData.hasMaxSize && (
+                    <p className="text-lg font-bold py-2">
+                      Cantidad máxima de participantes:{" "}
+                      <span className="text-base font-normal">Ilimitada</span>
+                    </p>
+                  )}
+                </div>
+
+                <div className="col-span-full text-white sm:col-span-5">
+                  <p className="text-lg font-bold py-1">
+                    Creador:{" "}
+                    <span className="text-base font-normal">Admin</span>
+                  </p>
+                  <p className="text-lg font-bold py-1">
+                    Fecha inicio:{" "}
+                    <span className="text-base font-normal">
+                      {raffleData && formatDate(raffleData.dateStart)}
+                    </span>
+                  </p>
+                  <p className="text-lg font-bold py-1">
+                    Fecha final:{" "}
+                    <span className="text-base font-normal">
+                      {raffleData && formatDate(raffleData.dateEnd)}
+                    </span>
+                  </p>
+                </div>
+
+                <div className="col-span-full flex justify-end items-start sm:col-span-1">
+                  <Button
+                    onClickFunction={() => {
+                      setIsModalOpen(true);
+                    }}
+                    text={"Sortear"}
+                    bg={"#ffa988"}
+                    className={"px-6 py-2 rounded-md font-bold text-black"}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-center my-8 font-bold text-4xl text-white">
+                  Participantes
+                </h2>
+
+                <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
+                  {raffleData &&
+                    raffleData.participants.map((p) => {
+                      return (
+                        <div className="flex flex-col px-3" key={p._id}>
+                          <img
+                            src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
+                            width={64}
+                            height={64}
+                            className="rounded-full mx-auto"
+                          />
+                          <p className="text-white text-center pt-4">
+                            {p.globalname}
+                          </p>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
 
-            <div className="col-span-full text-white sm:col-span-5">
-              <p className="text-lg font-bold py-1">
-                Creador: <span className="text-base font-normal">Admin</span>
-              </p>
-              <p className="text-lg font-bold py-1">
-                Fecha inicio:{" "}
-                <span className="text-base font-normal">
-                  {raffleData && formatDate(raffleData.dateStart)}
-                </span>
-              </p>
-              <p className="text-lg font-bold py-1">
-                Fecha final:{" "}
-                <span className="text-base font-normal">
-                  {raffleData && formatDate(raffleData.dateEnd)}
-                </span>
-              </p>
-            </div>
-
-            <div className="col-span-full flex justify-end items-start sm:col-span-1">
-              <Button
-                onClickFunction={() => {
-                  setIsModalOpen(true);
-                }}
-                text={"Sortear"}
-                bg={"#ffa988"}
-                className={"px-6 py-2 rounded-md font-bold text-black"}
+            {isModalOpen && (
+              <Modal
+                formName={"winners"}
+                isOpen={isModalOpen}
+                setOpenModalFunction={() => setIsModalOpen(false)}
               />
-            </div>
-          </div>
+            )}
 
-          <div>
-            <h2 className="text-center my-8 font-bold text-4xl text-white">
-              Participantes
-            </h2>
-
-            <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
-              {raffleData &&
-                raffleData.participants.map((p) => {
-                  return (
-                    <div className="flex flex-col px-3" key={p._id}>
-                      <img
-                        src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
-                        width={64}
-                        height={64}
-                        className="rounded-full mx-auto"
-                      />
-                      <p className="text-white text-center pt-4">
-                        {p.globalname}
-                      </p>
-                    </div>
-                  );
-                })}
-            </div>
+            {isParticipating ? (
+              <Button
+                text={"¡Ya estás participando!"}
+                className={
+                  "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
+                }
+              />
+            ) : (
+              <Button
+                text={"Participar"}
+                bg={"#ffa988"}
+                className={
+                  "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
+                }
+                onClickFunction={() => handleParticipate(user.id)}
+              />
+            )}
           </div>
         </div>
-
-        {isModalOpen && (
-          <Modal
-            formName={"winners"}
-            isOpen={isModalOpen}
-            setOpenModalFunction={() => setIsModalOpen(false)}
-          />
-        )}
-
-        {isParticipating ? (
-          <Button
-            text={"¡Ya estás participando!"}
-            className={
-              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
-            }
-          />
-        ) : (
-          <Button
-            text={"Participar"}
-            bg={"#ffa988"}
-            className={
-              "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
-            }
-            onClickFunction={handleParticipate}
-          />
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

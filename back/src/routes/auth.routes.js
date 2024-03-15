@@ -1,13 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
-
-import { generateJWToken } from "../utils/jwt.js";
-
 import DiscordStrategy from "../config/discord.config.js";
-import JwtStrategy from "../config/jwt.config.js";
 
 passport.use(DiscordStrategy);
-passport.use(JwtStrategy);
 
 const authRouter = Router();
 
@@ -30,24 +25,37 @@ authRouter.get(
     failureFlash: true,
   }),
   (req, res) => {
-    const user = req.user;
-
-    const tokenUser = {
-      user_id: user.id,
-      username: user.username,
-      avatar_id: user.avatar,
-      globalname: user.global_name,
-      email: user.email,
-    };
-
-    const access_token = generateJWToken(tokenUser);
-
-    res.cookie("jwtCookieToken", access_token, {
+    res.cookie("discordToken", req.user.accessToken, {
       httpOnly: false,
     });
 
     res.redirect("http://localhost:5173/success");
   }
 );
+
+authRouter.get("/discord/validate", async (req, res) => {
+  if (req.cookies.discordToken) {
+    try {
+      const response = await fetch("https://discord.com/api/users/@me", {
+        headers: {
+          authorization: `Bearer ${req.cookies.discordToken}`,
+        },
+      });
+
+      const data = await response.json();
+
+      res.status(200).json({ valid: true, user: data });
+    } catch (error) {
+      res.json({ valid: false });
+    }
+  } else {
+    res.json({ valid: false });
+  }
+});
+
+authRouter.get("/logout", async (req, res) => {
+  res.clearCookie("discordToken");
+  res.json({ error: false });
+});
 
 export default authRouter;

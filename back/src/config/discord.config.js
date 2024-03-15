@@ -32,6 +32,7 @@ const DiscordStrategy = new Strategy(
           globalname: profile.global_name,
           email: profile.email,
           isDiscordMember: discordMember,
+          accessToken: accessToken,
         };
 
         let result = await UserService.createAccount(newUser);

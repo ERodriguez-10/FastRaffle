@@ -10,6 +10,7 @@ const userSchema = new Schema({
   globalname: { type: String, required: true },
   email: { type: String, required: true },
   isDiscordMember: { type: Boolean, required: true },
+  accessToken: { type: String, required: true },
 });
 
 const userModel = model(userCollection, userSchema);
