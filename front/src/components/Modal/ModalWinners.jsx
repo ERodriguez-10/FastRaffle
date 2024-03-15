@@ -40,7 +40,9 @@ function ModalWinners({ setOpenModalFunction }) {
     <div className="w-full bg-impresario text-white">
       <div className="space-y-12 p-6">
         <div className="flex justify-between">
-          <h1 className="text-center text-3xl font-bold">¡Realizar Sorteo!</h1>
+          <h1 className="text-center text-xl sm:text-3xl font-bold">
+            ¡Realizar Sorteo!
+          </h1>
           <div className="flex justify-center">
             <button
               type="button"
