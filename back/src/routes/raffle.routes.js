@@ -107,9 +107,10 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
     }
 
     await raffleModel.updateOne({ code: code }, { $set: { winners: winners } });
+    res.status(200).json({winners: winners});
   } catch (err) {
     console.log(err);
-    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
