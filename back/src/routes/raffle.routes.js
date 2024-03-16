@@ -110,7 +110,10 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
       }
     }
 
-    await raffleModel.updateOne({ code: code }, { $set: { winners: winners } });
+    await raffleModel.updateOne(
+      { code: code },
+      { $set: { winners: winners, isActive: false } }
+    );
     res.status(200).json({ winners: winners });
   } catch (err) {
     console.log(err);
