@@ -76,7 +76,10 @@ const Details = () => {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const responseData = await response.json();
+        throw new Error(
+          `HTTP error! Status: ${response.status} Message: ${responseData.message}`
+        );
       }
 
       const responseData = await response.json();
@@ -109,7 +112,16 @@ const Details = () => {
         });
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      toast.error(`${error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 

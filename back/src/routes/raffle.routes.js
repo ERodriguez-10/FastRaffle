@@ -69,13 +69,20 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
 
     const userMongoId = await sUser.getAccountByDiscordId(user_id);
 
+    if(!userMongoId.isDiscordMember){
+      return res.status(400).json({
+        error: true,
+        message: "El usuario no es miembro del servidor DevTalles"
+      })
+    }
+
     const addParticipant = await sRaffle.addParticipantToRaffle(
       raffleId,
       userMongoId._id
     );
 
     if (!addParticipant) {
-      return res.status(200).json({
+      return res.status(400).json({
         error: true,
         message: "Código ya utilizado. ¡Ya estás participando de este sorteo!",
       });

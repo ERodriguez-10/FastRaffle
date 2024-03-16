@@ -17,11 +17,12 @@ const Card = ({
         <div className="mr-6">
           <h2 className="text-white font-bold text-xl">{title}</h2>
           <p className="text-gray-400 text-sm my-2">{description}</p>
-
-          <p className="text-white font-bold">
-            Código de participación:{" "}
-            <span className="text-gray-400 text-sm">{code}</span>
-          </p>
+          {isActive && (
+            <p className="text-white font-bold">
+              Código de participación:{" "}
+              <span className="text-gray-400 text-sm">{code}</span>
+            </p>
+          )}
         </div>
         {isAdmin ? (
           <div className="hidden mt-3 md:max-lg:block">
