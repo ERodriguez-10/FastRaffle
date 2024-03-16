@@ -233,6 +233,7 @@ const Details = () => {
                       raffleData.winners.map((p, index) => {
                         return (
                           <UserCard
+                            key={p._id}
                             position={index + 1}
                             u={p}
                             className={"text-white"}

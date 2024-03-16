@@ -12,7 +12,7 @@ const Card = ({
   const { isAdmin } = useContext(AuthContext);
 
   return (
-    <div className="w-full h-full flex justify-between p-6 border border-gray-400 rounded-xl">
+    <div className="w-full h-full flex justify-between p-3 md:p-6 border border-gray-400 rounded-xl">
       <div className="text-start flex flex-col justify-between">
         <div className="mr-6">
           <h2 className="text-white font-bold text-xl">{title}</h2>
@@ -28,18 +28,52 @@ const Card = ({
         ) : (
           <div>
             {isParticipating ? (
-              <p className="text-emerald-400 font-bold pt-6 text-center">
-                ¡Ya estas participando!
-              </p>
+              <>
+                <div className="hidden mt-3 md:max-lg:block">
+                  {isActive && date > today && (
+                    <span className="bg-green-600 p-2 rounded-xl">Activo</span>
+                  )}
+                  {isActive && date <= today && (
+                    <span className="bg-yellow-400 p-2 rounded-xl">
+                      Pendiente
+                    </span>
+                  )}
+                  {!isActive && (
+                    <span className="bg-red-600 p-2 rounded-xl">
+                      Finalizado
+                    </span>
+                  )}
+                </div>
+                <p className="text-emerald-400 font-bold pt-3 text-center">
+                  ¡Ya estas participando!
+                </p>
+              </>
             ) : (
-              <p className="text-customOrange font-bold pt-6 text-center">
-                ¡Todavía puedes ser parte del sorteo!
-              </p>
+              <>
+                <div className="hidden mt-3 md:max-lg:block">
+                  {isActive && date > today && (
+                    <span className="bg-green-600 p-2 rounded-xl">Activo</span>
+                  )}
+                  {isActive && date <= today && (
+                    <span className="bg-yellow-400 p-2 rounded-xl">
+                      Pendiente
+                    </span>
+                  )}
+                  {!isActive && (
+                    <span className="bg-red-600 p-2 rounded-xl">
+                      Finalizado
+                    </span>
+                  )}
+                </div>
+                <p className="text-customOrange font-bold pt-3 text-center">
+                  ¡Todavía puedes ser parte del sorteo!
+                </p>
+              </>
             )}
           </div>
         )}
       </div>
-      <div>
+      <div className="md:max-lg:hidden">
         {isActive && date > today && (
           <span className="bg-green-600 p-2 rounded-xl">Activo</span>
         )}
