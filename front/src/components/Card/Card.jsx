@@ -54,9 +54,11 @@ const Card = ({
                     </span>
                   )}
                 </div>
-                <p className="text-emerald-400 font-bold pt-3 text-center">
-                  ¡Ya estas participando!
-                </p>
+                {isActive && (
+                  <p className="text-emerald-400 font-bold pt-3 text-center">
+                    ¡Ya estas participando!
+                  </p>
+                )}
               </>
             ) : (
               <>
@@ -75,9 +77,11 @@ const Card = ({
                     </span>
                   )}
                 </div>
-                <p className="text-customOrange font-bold pt-3 text-center">
-                  ¡Todavía puedes ser parte del sorteo!
-                </p>
+                {isActive && (
+                  <p className="text-customOrange font-bold pt-3 text-center">
+                    ¡Todavía puedes ser parte del sorteo!
+                  </p>
+                )}
               </>
             )}
           </div>
