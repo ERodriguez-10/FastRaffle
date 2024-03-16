@@ -119,7 +119,7 @@ const Details = () => {
         <div>Cargando</div>
       ) : (
         <div className="bg-impresario">
-          <div className="container mx-auto my-auto text-start flex flex-col justify-between lg:h-screen">
+          <div className="container mx-auto my-auto text-start flex flex-col justify-between lg:h-screen md:h-screen">
             <div>
               <div className="grid grid-cols-12 p-5 border-0 border-b-2 border-gray-400 pt-8">
                 <div className="col-span-full text-white sm:col-span-1">
