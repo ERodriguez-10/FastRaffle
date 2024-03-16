@@ -27,8 +27,6 @@ const Details = () => {
       }
       const dataRaffle = await responseRaffle.json();
 
-      console.log(dataRaffle.data);
-
       setRaffleData(dataRaffle.data);
     } catch (error) {
       console.log(error);
