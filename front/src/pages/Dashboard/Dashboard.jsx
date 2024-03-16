@@ -113,6 +113,8 @@ const Dashboard = () => {
                         isParticipating={isParticipating}
                         userId={user.id}
                         updateRaffles={updateRaffles}
+                        isActive={r.isActive}
+                        date={r.dateEnd}
                       />
                     </Link>
                   );
