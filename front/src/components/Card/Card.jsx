@@ -25,10 +25,10 @@ const Card = ({
         </div>
         {isAdmin ? (
           <div className="hidden mt-3 md:max-lg:block">
-            {isActive && date > today && (
+            {isActive && date <= today && (
               <span className="bg-green-600 p-2 rounded-xl">Activo</span>
             )}
-            {isActive && date <= today && (
+            {isActive && date > today && (
               <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
             )}
             {!isActive && (
@@ -40,10 +40,10 @@ const Card = ({
             {isParticipating ? (
               <>
                 <div className="hidden mt-3 md:max-lg:block">
-                  {isActive && date > today && (
+                  {isActive && date <= today && (
                     <span className="bg-green-600 p-2 rounded-xl">Activo</span>
                   )}
-                  {isActive && date <= today && (
+                  {isActive && date > today && (
                     <span className="bg-yellow-400 p-2 rounded-xl">
                       Pendiente
                     </span>
@@ -63,10 +63,10 @@ const Card = ({
             ) : (
               <>
                 <div className="hidden mt-3 md:max-lg:block">
-                  {isActive && date > today && (
+                  {isActive && date <= today && (
                     <span className="bg-green-600 p-2 rounded-xl">Activo</span>
                   )}
-                  {isActive && date <= today && (
+                  {isActive && date > today && (
                     <span className="bg-yellow-400 p-2 rounded-xl">
                       Pendiente
                     </span>
@@ -88,10 +88,10 @@ const Card = ({
         )}
       </div>
       <div className="md:max-lg:hidden">
-        {isActive && date > today && (
+        {isActive && date <= today && (
           <span className="bg-green-600 p-2 rounded-xl">Activo</span>
         )}
-        {isActive && date <= today && (
+        {isActive && date > today && (
           <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
         )}
         {!isActive && (
