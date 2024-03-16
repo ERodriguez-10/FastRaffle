@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [cookies, , removeCookie] = useCookies(["discordToken"]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +48,17 @@ export const AuthProvider = ({ children }) => {
   }, [cookies.discordToken]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, validateUser, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        validateUser,
+        logout,
+        isAdmin,
+        setIsAdmin,
+        setUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

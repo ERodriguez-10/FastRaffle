@@ -15,4 +15,8 @@ export default class UserServices {
   getAccountByDiscordId = async (user_id) => {
     return await userModel.findOne({ user_id: user_id });
   };
+
+  getAdminData = async () => {
+    return await userModel.findOne({ admin: true });
+  };
 }

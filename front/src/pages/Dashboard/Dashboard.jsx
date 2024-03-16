@@ -6,11 +6,10 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Dashboard = () => {
-  const { user, loading, logout } = useContext(AuthContext);
+  const { user, loading, logout, isAdmin } = useContext(AuthContext);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(true);
 
   const [raffles, setRaffles] = useState([]);
 
@@ -68,15 +67,19 @@ const Dashboard = () => {
                       }
                     />
                   )}
-                  <Button
-                    text={"Ingresar código"}
-                    bg={"#ffa988"}
-                    iconName={"ri-add-circle-line"}
-                    onClickFunction={() => setCodeModalOpen(true)}
-                    className={
-                      "mt-4 mb-8 md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold text-black"
-                    }
-                  />
+                  {isAdmin ? (
+                    <></>
+                  ) : (
+                    <Button
+                      text={"Ingresar código"}
+                      bg={"#ffa988"}
+                      iconName={"ri-add-circle-line"}
+                      onClickFunction={() => setCodeModalOpen(true)}
+                      className={
+                        "mt-4 mb-8 md:my-8 md:mx-2 w-full md:w-auto px-6 py-2 rounded-md font-bold text-black"
+                      }
+                    />
+                  )}
                   <Button
                     text={"Salir"}
                     bg={"transparent"}

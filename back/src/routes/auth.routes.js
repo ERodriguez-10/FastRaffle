@@ -1,6 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
 import DiscordStrategy from "../config/discord.config.js";
+import UserServices from "../services/user.services.js";
+
+const sUser = new UserServices();
 
 passport.use(DiscordStrategy);
 
@@ -56,6 +59,20 @@ authRouter.get("/discord/validate", async (req, res) => {
 authRouter.get("/logout", async (req, res) => {
   res.clearCookie("discordToken");
   res.json({ error: false });
+});
+
+authRouter.post("/adminLogin", async (req, res) => {
+  const { username, password } = req.body;
+
+  const adminData = await sUser.getAdminData();
+
+  const transform = adminData.toObject();
+
+  if (transform.username === username && transform.pass === password) {
+    res.json({ valid: true, user: "Admin" });
+  } else {
+    res.json({ error: true });
+  }
 });
 
 export default authRouter;

@@ -1,6 +1,13 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 const FormLogin = ({ setOpenModalFunction }) => {
+  const { setIsAdmin, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     register,
@@ -8,53 +15,43 @@ const FormLogin = ({ setOpenModalFunction }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/auth/adminLogin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:8080/api/raffle/${rCode}/user/${user}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! Status: ${response.status}`);
-    //   }
+      const responseData = await response.json();
 
-    //   const responseData = await response.json();
-
-    //   if (!responseData.error) {
-    //     toast.success("¡Tu participación se ha registrado correctamente!", {
-    //       position: "bottom-center",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "colored",
-    //     });
-
-    //     setOpenModalFunction();
-    //   } else {
-    //     toast.error(`${responseData.message}`, {
-    //       position: "bottom-center",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "colored",
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    // }
+      if (!responseData.error) {
+        setIsAdmin(true);
+        setUser({ isAdmin: true });
+        navigate("/dashboard");
+      } else {
+        toast.error(`${responseData.message}`, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (

@@ -11,7 +11,7 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Details = () => {
   const { id } = useParams();
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading, isAdmin } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [raffleData, setRaffleData] = useState(null);
   const [isParticipating, setIsParticipating] = useState(false);
@@ -38,7 +38,6 @@ const Details = () => {
 
   useEffect(() => {
     if (raffleData && !loading && user !== null) {
-      console.log(user.id);
       setIsParticipating(
         raffleData.participants.some((ob) => ob.user_id === user.id)
       );
@@ -180,16 +179,20 @@ const Details = () => {
                   </p>
                 </div>
 
-                <div className="col-span-full flex justify-end items-start sm:col-span-1">
-                  <Button
-                    onClickFunction={() => {
-                      setIsModalOpen(true);
-                    }}
-                    text={"Sortear"}
-                    bg={"#ffa988"}
-                    className={"px-6 py-2 rounded-md font-bold text-black"}
-                  />
-                </div>
+                {isAdmin ? (
+                  <div className="col-span-full flex justify-end items-start sm:col-span-1">
+                    <Button
+                      onClickFunction={() => {
+                        setIsModalOpen(true);
+                      }}
+                      text={"Sortear"}
+                      bg={"#ffa988"}
+                      className={"px-6 py-2 rounded-md font-bold text-black"}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
 
               <div>
@@ -226,22 +229,28 @@ const Details = () => {
               />
             )}
 
-            {isParticipating ? (
-              <Button
-                text={"¡Ya estás participando!"}
-                className={
-                  "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
-                }
-              />
+            {isAdmin ? (
+              <></>
             ) : (
-              <Button
-                text={"Participar"}
-                bg={"#ffa988"}
-                className={
-                  "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
-                }
-                onClickFunction={() => handleParticipate(user.id)}
-              />
+              <>
+                {isParticipating ? (
+                  <Button
+                    text={"¡Ya estás participando!"}
+                    className={
+                      "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
+                    }
+                  />
+                ) : (
+                  <Button
+                    text={"Participar"}
+                    bg={"#ffa988"}
+                    className={
+                      "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
+                    }
+                    onClickFunction={() => handleParticipate(user.id)}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

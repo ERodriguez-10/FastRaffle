@@ -78,7 +78,6 @@ export default class RaffleServices {
         { $set: { winners: true } },
         { new: true }
       );
-      console.log(raffleWinners);
       return raffleWinners;
     } catch (err) {
       console.log(err);
@@ -90,7 +89,6 @@ export default class RaffleServices {
       const raffleUpdated = await raffleModel.findByIdAndUpdate(id, raffle, {
         new: true,
       });
-      console.log(raffleUpdated);
       return raffleUpdated;
     } catch (err) {
       console.log(err);
@@ -100,7 +98,6 @@ export default class RaffleServices {
   deleteRaffle = async (id) => {
     try {
       const raffleDeleted = await raffleModel.findByIdAndDelete(id);
-      console.log(raffleDeleted);
       return raffleDeleted;
     } catch (err) {
       console.log(err);
