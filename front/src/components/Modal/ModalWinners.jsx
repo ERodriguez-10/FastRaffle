@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import UserCard from "../Card/UserCard";
 
 //TODO:
@@ -42,8 +43,16 @@ function ModalWinners({ setOpenModalFunction }) {
 
       setUsers(data.winners);
     } catch (error) {
-      console.error("Error al obtener usuarios:", error);
-      console.log(error);
+      toast.error(`${error.message}`, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
