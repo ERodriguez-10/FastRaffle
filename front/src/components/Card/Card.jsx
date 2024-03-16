@@ -13,8 +13,6 @@ const Card = ({
 
   return (
     <div className="w-full h-full flex justify-between p-6 border border-gray-400 rounded-xl">
-      {console.log(date)}
-      {console.log(isActive)}
       <div className="text-start flex flex-col justify-between">
         <div className="mr-6">
           <h2 className="text-white font-bold text-xl">{title}</h2>
