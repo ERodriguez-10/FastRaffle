@@ -20,10 +20,7 @@ const Login = () => {
       )}
       <div className="bg-impresario">
         <div className="container mx-auto text-center flex flex-col items-center justify-center h-screen">
-          <img
-            src="https://media.licdn.com/dms/image/C4E0BAQHZYYIUKBtZNw/company-logo_200_200/0/1677855312170/devtalles_logo?e=1718236800&v=beta&t=Mr5D2UCUBCFCNKu3VsgHf2tjlFbFgUCfrxKJoN4f1NQ"
-            className="rounded-full h-20 my-3"
-          />
+          <img src="/ISO_DUO.png" className="rounded-full h-20 my-3" />
           <h1 className="text-center text-white text-3xl">
             Inicia sesión para continuar!
           </h1>
