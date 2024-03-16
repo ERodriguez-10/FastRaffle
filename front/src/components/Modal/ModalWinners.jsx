@@ -15,8 +15,6 @@ function ModalWinners({ setOpenModalFunction }) {
       const path = window.location.pathname;
       const params = path.split("/").filter((part) => part !== "");
       const code = params[params.length - 1];
-      console.log("Antes del Fetch");
-      console.log(code);
 
       const response = await fetch(
         `http://localhost:8080/api/raffle/${code}/giveaway`,
@@ -27,8 +25,6 @@ function ModalWinners({ setOpenModalFunction }) {
           },
         }
       );
-
-      console.log("Después del Fetch");
 
       if (!response.ok) {
         const data = await response.json()
