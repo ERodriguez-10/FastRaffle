@@ -30,6 +30,9 @@ function ModalWinners({ setOpenModalFunction }) {
       }
 
       const data = await response.json();
+
+      console.log(data);
+
       setUsers(data.winners);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);

@@ -96,21 +96,32 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
       return res.status(404).json({ message: "Raffle not found" });
     }
     const participants = existRaffle.participants;
-    const totalparticipants = participants.length;
+    const totalParticipants = participants.length;
 
-    const winners = [];
-    const winnerIndices = [];
+    const winnerIndices = new Set();
 
-    for (let i = 0; i < 3; i++) {
-      const randomIndex = Math.floor(Math.random() * totalparticipants);
+    if (participants.length < 1) {
+      return res.status(400).json({
+        message: "El sorteo debe tener al menos 3 participantes",
+      });
+    }
 
-      if (!winnerIndices.includes(randomIndex)) {
-        winnerIndices.push(randomIndex);
-        winners.push(participants[randomIndex]);
+    while (winnerIndices.size < 2) {
+      const randomIndex = Math.floor(Math.random() * totalParticipants);
+
+      if (!winnerIndices.has(randomIndex)) {
+        winnerIndices.add(randomIndex);
       }
     }
 
-    await raffleModel.updateOne({ code: code }, { $set: { winners: winners } });
+    const winners = Array.from(winnerIndices).map(
+      (index) => participants[index]
+    );
+
+    await raffleModel.updateOne(
+      { code: code },
+      { $set: { winners: winners, isActive: false } }
+    );
     res.status(200).json({ winners: winners });
   } catch (err) {
     console.log(err);
