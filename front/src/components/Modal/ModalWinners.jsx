@@ -14,6 +14,8 @@ function ModalWinners({ setOpenModalFunction }) {
       const path = window.location.pathname;
       const params = path.split("/").filter((part) => part !== "");
       const code = params[params.length - 1];
+      console.log("Antes del Fetch");
+      console.log(code);
 
       const response = await fetch(
         `http://localhost:8080/api/raffle/${code}/giveaway`,
@@ -25,8 +27,13 @@ function ModalWinners({ setOpenModalFunction }) {
         }
       );
 
+      console.log("Después del Fetch");
+
       if (!response.ok) {
-        throw new Error("La respuesta no fue exitosa");
+        const data = await response.json()
+        throw new Error(
+          `HTTP error! Status: ${response.status} Message: ${data.message}`
+        );
       }
 
       const data = await response.json();
@@ -36,6 +43,7 @@ function ModalWinners({ setOpenModalFunction }) {
       setUsers(data.winners);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
+      console.log(error);
     }
   };
 

@@ -100,7 +100,7 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
 
     const winnerIndices = new Set();
 
-    if (participants.length < 1) {
+    if (participants.length < 3) {
       return res.status(400).json({
         message: "El sorteo debe tener al menos 3 participantes",
       });
