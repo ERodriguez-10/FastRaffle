@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../components/Button/Button.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
+import UserCard from "../../components/Card/UserCard.jsx";
 
 import { toast } from "react-toastify";
 
@@ -197,30 +198,50 @@ const Details = () => {
                 )}
               </div>
 
-              <div>
-                <h2 className="text-center my-8 font-bold text-4xl text-white">
-                  Participantes
-                </h2>
+              {raffleData && raffleData.isActive ? (
+                <div>
+                  <h2 className="text-center my-8 font-bold text-4xl text-white">
+                    Participantes
+                  </h2>
 
-                <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
-                  {raffleData &&
-                    raffleData.participants.map((p) => {
-                      return (
-                        <div className="flex flex-col px-3" key={p._id}>
-                          <img
-                            src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
-                            width={64}
-                            height={64}
-                            className="rounded-full mx-auto"
-                          />
-                          <p className="text-white text-center pt-4">
-                            {p.globalname}
-                          </p>
-                        </div>
-                      );
-                    })}
+                  <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
+                    {raffleData &&
+                      raffleData.participants.map((p) => {
+                        return (
+                          <div className="flex flex-col px-3" key={p._id}>
+                            <img
+                              src={`https://cdn.discordapp.com/avatars/${p.user_id}/${p.avatar_id}.png`}
+                              width={64}
+                              height={64}
+                              className="rounded-full mx-auto"
+                            />
+                            <p className="text-white text-center pt-4">
+                              {p.globalname}
+                            </p>
+                          </div>
+                        );
+                      })}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <h2 className="text-center my-8 font-bold text-4xl text-white">
+                    Resultados
+                  </h2>
+                  <div className="flex flex-row gap-4 items-center justify-center overflow-x-auto flex-wrap p-5">
+                    {raffleData &&
+                      raffleData.winners.map((p, index) => {
+                        return (
+                          <UserCard
+                            position={index + 1}
+                            u={p}
+                            className={"text-white"}
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
             </div>
 
             {isModalOpen && (
@@ -231,49 +252,31 @@ const Details = () => {
               />
             )}
 
-            {raffleData && raffleData.isActive ? (
-              <></>
-            ) : (
-              <div>
-                <h2 className="text-center my-8 font-bold text-4xl text-white">
-                  Resultados
-                </h2>
-                <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
-                  {raffleData &&
-                    raffleData.winners.map((p) => {
-                      console.log(p);
-                      return (
-                        <p className="text-white" key={p.user_id}>
-                          {p.globalname}
-                        </p>
-                      );
-                    })}
-                </div>
-              </div>
-            )}
-
             {isAdmin ? (
               <></>
             ) : (
-              <>
-                {isParticipating ? (
-                  <Button
-                    text={"¡Ya estás participando!"}
-                    className={
-                      "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
-                    }
-                  />
-                ) : (
-                  <Button
-                    text={"Participar"}
-                    bg={"#ffa988"}
-                    className={
-                      "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
-                    }
-                    onClickFunction={() => handleParticipate(user.id)}
-                  />
-                )}
-              </>
+              raffleData &&
+              raffleData.isActive && (
+                <>
+                  {isParticipating ? (
+                    <Button
+                      text={"¡Ya estás participando!"}
+                      className={
+                        "my-14 px-6 py-2 rounded-md font-bold text-black w-1/2 sm:w-1/3 mx-auto bg-green-400"
+                      }
+                    />
+                  ) : (
+                    <Button
+                      text={"Participar"}
+                      bg={"#ffa988"}
+                      className={
+                        "my-14 px-6 py-2 rounded-md font-bold text-black w-1/3 mx-auto"
+                      }
+                      onClickFunction={() => handleParticipate(user.id)}
+                    />
+                  )}
+                </>
+              )
             )}
           </div>
         </div>
