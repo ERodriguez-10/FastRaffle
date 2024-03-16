@@ -26,6 +26,8 @@ const Details = () => {
       }
       const dataRaffle = await responseRaffle.json();
 
+      console.log(dataRaffle.data);
+
       setRaffleData(dataRaffle.data);
     } catch (error) {
       console.log(error);
@@ -179,7 +181,7 @@ const Details = () => {
                   </p>
                 </div>
 
-                {isAdmin ? (
+                {isAdmin && raffleData && raffleData.isActive ? (
                   <div className="col-span-full flex justify-end items-start sm:col-span-1">
                     <Button
                       onClickFunction={() => {
@@ -227,6 +229,27 @@ const Details = () => {
                 isOpen={isModalOpen}
                 setOpenModalFunction={() => setIsModalOpen(false)}
               />
+            )}
+
+            {raffleData && raffleData.isActive ? (
+              <></>
+            ) : (
+              <div>
+                <h2 className="text-center my-8 font-bold text-4xl text-white">
+                  Resultados
+                </h2>
+                <div className="flex flex-row gap-4 items-start overflow-x-auto flex-wrap p-5">
+                  {raffleData &&
+                    raffleData.winners.map((p) => {
+                      console.log(p);
+                      return (
+                        <p className="text-white" key={p.user_id}>
+                          {p.globalname}
+                        </p>
+                      );
+                    })}
+                </div>
+              </div>
             )}
 
             {isAdmin ? (
