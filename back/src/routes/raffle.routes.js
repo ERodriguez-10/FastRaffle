@@ -69,11 +69,25 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
 
     const userMongoId = await sUser.getAccountByDiscordId(user_id);
 
-    if(!userMongoId.isDiscordMember){
+    if (!userMongoId.isDiscordMember) {
       return res.status(400).json({
         error: true,
-        message: "El usuario no es miembro del servidor DevTalles"
-      })
+        message: "El usuario no es miembro del servidor DevTalles",
+      });
+    }
+
+    if (Date.now() < existRaffle.dateStart) {
+      return res.status(400).json({
+        error: true,
+        message: "La inscripción al sorteo aún no ha iniciado",
+      });
+    }
+
+    if (Date.now() > existRaffle.dateEnd) {
+      return res.status(400).json({
+        error: true,
+        message: "La inscripción al sorteo ya ha finalizado",
+      });
     }
 
     const addParticipant = await sRaffle.addParticipantToRaffle(
@@ -102,6 +116,25 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
     if (!existRaffle) {
       return res.status(404).json({ message: "Raffle not found" });
     }
+
+    if (Date.now() < existRaffle.dateStart) {
+      return res
+        .status(404)
+        .json({
+          message:
+            "No se puede realizar el sorteo, ya que aún no comenzo la inscripción",
+        });
+    }
+
+    if (Date.now() < existRaffle.dateEnd) {
+      return res
+        .status(404)
+        .json({
+          message:
+            "No se puede realizar el sorteo, ya que aún no finalizo la inscripción",
+        });
+    }
+
     const participants = existRaffle.participants;
     const totalParticipants = participants.length;
 
