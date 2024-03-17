@@ -134,7 +134,8 @@ const Dashboard = () => {
                         userId={user.id}
                         updateRaffles={updateRaffles}
                         isActive={r.isActive}
-                        date={r.dateEnd}
+                        dateEnd={r.dateEnd}
+                        dateStart={r.dateStart}
                       />
                     </Link>
                   );
