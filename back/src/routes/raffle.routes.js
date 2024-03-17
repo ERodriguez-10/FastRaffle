@@ -76,14 +76,17 @@ raffleRouter.post("/:code/user/:user_id", async (req, res) => {
       });
     }
 
-    if (Date.now() < existRaffle.dateStart) {
+    const dateStart = new Date(existRaffle.dateStart).getTime();
+    const dateEnd = new Date(existRaffle.dateEnd).getTime();
+
+    if (Date.now() < dateStart) {
       return res.status(400).json({
         error: true,
         message: "La inscripción al sorteo aún no ha iniciado",
       });
     }
 
-    if (Date.now() > existRaffle.dateEnd) {
+    if (Date.now() > dateEnd) {
       return res.status(400).json({
         error: true,
         message: "La inscripción al sorteo ya ha finalizado",
@@ -117,7 +120,10 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
       return res.status(404).json({ message: "Raffle not found" });
     }
 
-    if (Date.now() < existRaffle.dateStart) {
+    const dateStart = new Date(existRaffle.dateStart).getTime();
+    const dateEnd = new Date(existRaffle.dateEnd).getTime();
+
+    if (Date.now() < dateStart) {
       return res
         .status(404)
         .json({
@@ -126,7 +132,7 @@ raffleRouter.post("/:code/giveaway", async (req, res) => {
         });
     }
 
-    if (Date.now() < existRaffle.dateEnd) {
+    if (Date.now() < dateEnd) {
       return res
         .status(404)
         .json({
