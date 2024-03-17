@@ -10,7 +10,6 @@ const Dashboard = () => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
-
   const [raffles, setRaffles] = useState([]);
 
   const updateRaffles = async () => {
@@ -50,24 +49,20 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          {isOpenModal ? (
+          {isOpenModal && (
             <Modal
               setOpenModalFunction={() => setIsOpenModal(!isOpenModal)}
               isOpen={isOpenModal}
               formName={"raffle"}
             />
-          ) : (
-            <></>
           )}
-          {codeModalOpen ? (
+          {codeModalOpen && (
             <Modal
               setOpenModalFunction={() => setCodeModalOpen(!codeModalOpen)}
               isOpen={codeModalOpen}
               formName={"code"}
               user={user.id}
             />
-          ) : (
-            <></>
           )}
           <div className="bg-impresario">
             <div className="container mx-auto min-h-screen">
@@ -87,9 +82,7 @@ const Dashboard = () => {
                       }
                     />
                   )}
-                  {isAdmin ? (
-                    <></>
-                  ) : (
+                  {!isAdmin && (
                     <Button
                       text={"Ingresar código"}
                       bg={"#ffa988"}
@@ -111,14 +104,7 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-              {/*<div className="w-full px-4">
-            <input
-              className="w-full p-2 border rounded-lg text-white"
-              type="text"
-              placeholder="Buscar..."
-            />
-          </div>*/}
-              <div className="h-full w-full px-4 my-10 grid md:grid-cols-3 gap-8">
+              <div className="h-full w-screen px-4 my-10 grid md:grid-cols-3 gap-6 gap-x-4">
                 {raffles.map((r) => {
                   const isParticipating = r.participants.some(
                     (p) => p.user_id === user.id
