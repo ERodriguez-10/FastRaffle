@@ -74,7 +74,7 @@ Instalar dependencias
 Inicializar el front
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 Volver al root del proyecto
