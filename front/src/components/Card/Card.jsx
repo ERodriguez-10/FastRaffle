@@ -1,14 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-const today = Date.now;
+const today = new Date().getTime();
 const Card = ({
   title,
   description,
   code,
   isParticipating,
   isActive,
-  date,
+  dateEnd,
+  dateStart,
 }) => {
+  const newDateStart = new Date(dateStart).getTime();
+  const newDateEnd = new Date(dateEnd).getTime();
   const { isAdmin } = useContext(AuthContext);
 
   return (
@@ -17,18 +20,22 @@ const Card = ({
         <div className="mr-6">
           <h2 className="text-white font-bold text-xl">{title}</h2>
           <p className="text-gray-400 text-sm my-2">{description}</p>
-
-          <p className="text-white font-bold">
-            Código de participación:{" "}
-            <span className="text-gray-400 text-sm">{code}</span>
-          </p>
+          {isActive && (
+            <p className="text-white font-bold">
+              Código de participación:{" "}
+              <span className="text-gray-400 text-sm">{code}</span>
+            </p>
+          )}
         </div>
         {isAdmin ? (
           <div className="hidden mt-3 md:max-lg:block">
-            {isActive && date > today && (
+            {isActive && today < newDateStart && (
+              <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
+            )}
+            {isActive && today >= newDateStart && today <= newDateEnd && (
               <span className="bg-green-600 p-2 rounded-xl">Activo</span>
             )}
-            {isActive && date <= today && (
+            {isActive && today > newDateEnd && (
               <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
             )}
             {!isActive && (
@@ -40,10 +47,15 @@ const Card = ({
             {isParticipating ? (
               <>
                 <div className="hidden mt-3 md:max-lg:block">
-                  {isActive && date > today && (
+                  {isActive && today < newDateStart && (
+                    <span className="bg-yellow-400 p-2 rounded-xl">
+                      Pendiente
+                    </span>
+                  )}
+                  {isActive && today >= newDateStart && today <= newDateEnd && (
                     <span className="bg-green-600 p-2 rounded-xl">Activo</span>
                   )}
-                  {isActive && date <= today && (
+                  {isActive && today > newDateEnd && (
                     <span className="bg-yellow-400 p-2 rounded-xl">
                       Pendiente
                     </span>
@@ -63,10 +75,15 @@ const Card = ({
             ) : (
               <>
                 <div className="hidden mt-3 md:max-lg:block">
-                  {isActive && date > today && (
+                  {isActive && today < newDateStart && (
+                    <span className="bg-yellow-400 p-2 rounded-xl">
+                      Pendiente
+                    </span>
+                  )}
+                  {isActive && today >= newDateStart && today <= newDateEnd && (
                     <span className="bg-green-600 p-2 rounded-xl">Activo</span>
                   )}
-                  {isActive && date <= today && (
+                  {isActive && today > newDateEnd && (
                     <span className="bg-yellow-400 p-2 rounded-xl">
                       Pendiente
                     </span>
@@ -88,10 +105,13 @@ const Card = ({
         )}
       </div>
       <div className="md:max-lg:hidden">
-        {isActive && date > today && (
+        {isActive && today < newDateStart && (
+          <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
+        )}
+        {isActive && today >= newDateStart && today <= newDateEnd && (
           <span className="bg-green-600 p-2 rounded-xl">Activo</span>
         )}
-        {isActive && date <= today && (
+        {isActive && today > newDateEnd && (
           <span className="bg-yellow-400 p-2 rounded-xl">Pendiente</span>
         )}
         {!isActive && (
