@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="bg-impresario">
+    <div className="bg-impresario min-h-full">
       <div className="container px-4 md:mx-auto text-center flex flex-col items-center justify-center h-screen">
         <img src="/ISO_DUO.png" className="rounded-full h-20 my-3" />
         <h1 className="text-center text-white text-4xl">
