@@ -27,6 +27,9 @@ Para levantar el BackEnd, es necesario configurar el archivo .env con las siguie
 `COOKIE_SECRET`
 
 Colocar el archivo .env en el root del proyeto "back".
+
+Los datos DB_USER, DB_PASSWORD, DB_NAME y DB_CLUSTER corresponden a los datos necesarios para la conexión a una base de datos de MongoDB.
+
 ## Configuración extra
 
 Es necesario crear un documento en "users" con la siguiente estructura:
