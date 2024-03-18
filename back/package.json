@@ -1,6 +1,6 @@
 {
   "name": "back-fastraffle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Backend service for Fast Raffle",
   "main": "index.js",
   "type": "module",
