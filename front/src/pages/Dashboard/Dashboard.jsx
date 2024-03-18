@@ -104,7 +104,7 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-              <div className="h-full w-screen px-4 my-10 grid md:grid-cols-3 gap-6 gap-x-4">
+              <div className="h-full px-4 my-10 grid md:grid-cols-3 gap-6 gap-x-4">
                 {raffles.map((r) => {
                   const isParticipating = r.participants.some(
                     (p) => p.user_id === user.id
